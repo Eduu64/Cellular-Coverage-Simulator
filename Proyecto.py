@@ -9,7 +9,6 @@ class BTS():
     PTX = 0
 
     GTXdBi = 0
-    GTXdB = 0
 
     GTXS1 = []
     GTXS2 = []
@@ -77,10 +76,9 @@ class BTS():
 
     def set_GTXdBi(self, value):
         self.GTXdBi = value
-        self.GTXdB = self.GTXdBi - 2,15
-        self.GTXS1 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector1"]]
-        self.GTXS2 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector2"]]
-        self.GTXS3 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector3"]]
+        self.GTXS1 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.sectores["sector1"]]
+        self.GTXS2 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.sectores["sector2"]]
+        self.GTXS3 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.sectores["sector3"]]
 
     def set_LTX(self, value):
         self.LTX = value
