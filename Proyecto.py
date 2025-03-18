@@ -1,5 +1,6 @@
 from tkinter import *
 import tkintermapview
+import math
 
 class BTS():
     LON = 0
@@ -17,6 +18,17 @@ class BTS():
     LTX = 0
     GRX = 0
     LRX = 0
+
+    Hm = 0
+    Hb = 0
+
+    frec = 0
+
+    steps = 100
+
+    Smax = -100
+
+    Pd = []
 
     sectores = {
             "sector1": [
@@ -38,11 +50,21 @@ class BTS():
     }
     
     
-    def __init__(self):
-        self.GTXdB = self.GTXdBi - 2,15
-        self.GTXS1 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector1"]]
-        self.GTXS2 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector2"]]
-        self.GTXS3 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector3"]]
+
+    def CalcularPds(self):
+        d = 1
+        a = (1.1*math.log10(self.frec)-0.7)*self.Hm-(1.56*math.log10(self.frec)-0.8)
+        while( aux <= self.Smax):
+            Lbs = 69.55 + 26.16 * math.log10(self.frec) - 13.82 * math.log10(self.Hb) - a + (44.9 - 6.55 * math.log10(self.Hb)) * math.log10(d/1000)
+            d = d + self.steps
+
+            for angulo,resultado in self.GTXS1:
+                aux = self.PTX + resultado - self.LTX - Lbs + self.GRX - self.LRX
+                auxLat = (self.LAT+(math.cos(angulo)*d)/111320)
+                auxLon =  (self.LON+(math.sin(angulo)*d)/111320)
+                self.Pd = [(angulo,auxLat,auxLon,aux)]
+
+
 
     def set_LON(self, value):
         self.LON = value
@@ -55,6 +77,10 @@ class BTS():
 
     def set_GTXdBi(self, value):
         self.GTXdBi = value
+        self.GTXdB = self.GTXdBi - 2,15
+        self.GTXS1 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector1"]]
+        self.GTXS2 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector2"]]
+        self.GTXS3 = [(angulo, self.GTXdB - perdida) for angulo, perdida in self.sectores["sector3"]]
 
     def set_LTX(self, value):
         self.LTX = value
