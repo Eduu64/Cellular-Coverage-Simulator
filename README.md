@@ -1,11 +1,11 @@
 # Cellular-Coverage-Simulator
 In process
 
-LIBREIAS
-** tkinter 
-** tkintermapview
-**  customtkinter
-** math
+## LIBRERIAS
+> tkinter 
+> tkintermapview
+>  customtkinter
+> math
 
 ![image](https://github.com/user-attachments/assets/6880c73a-ba48-4166-b445-c1e5e596dfd4)
 
