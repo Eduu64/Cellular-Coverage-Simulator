@@ -6,7 +6,14 @@ import customtkinter
 
 def create_gui(calcular_callback):
     window = Tk()
+
+    window.title("Cellular Coverage Simulator")
+
     window.geometry("1000x800")
+
+    # Bloquear el redimensionamiento de la ventana
+    window.resizable(False, False)  # (ancho, alto)
+
     window.configure(bg="#FFFFFF")
 
     # Entradas para la interfaz gráfica
@@ -23,7 +30,6 @@ def create_gui(calcular_callback):
     Entry_id2 = customtkinter.CTkEntry(master=window, placeholder_text="Longitud")
     Entry_id2.place(x=150, y=90)  
 
-       # Entradas para la interfaz gráfica
     Label_id4 = Label(window, text="Parametros", font=("Arial", 14), bg="#FFFFFF")
     Label_id4.place(x=30, y=130)
 
@@ -117,10 +123,14 @@ def create_gui(calcular_callback):
 
     Button_id22 = customtkinter.CTkButton(
         master=window,
+        fg_color="#ec3642", #color of the button
+        hover_color="RED", #color of the button when mouse is over
+        font=("Montserrat", 16), #font used
+        corner_radius=12, width=100, #radius of edges and total width
         text="Calcular",
         command=calcular_callback
     )
-    Button_id22.place(x=160, y=670)
+    Button_id22.place(x=170, y=670)
 
     # Configuración del mapa
     my_label = LabelFrame(window)
@@ -131,4 +141,4 @@ def create_gui(calcular_callback):
     map_widget.set_zoom(12)
     map_widget.pack()
 
-    return window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id27, Entry_id29, desplegable, Entry_id30, Entry_id31
+    return window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id27, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var
