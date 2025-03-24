@@ -2,9 +2,10 @@ from tkinter import *
 import math
 import numpy as np
 from GUI import create_gui  # Importa la función para crear la GUI
+from geopy.geocoders import Nominatim
 
 class SIM():
-    def __init__(self, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15):
+    def __init__(self, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16):
        
         #UPLINK//DOWNLINK
         if value15 == 1:
@@ -33,6 +34,8 @@ class SIM():
         self.PerdidasAñadidas = value13
         self.Margen = value14
 
+        self.type_location = value16
+
         self.GTXS1 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS1]
         self.GTXS2 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS2]
         self.GTXS3 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS3]
@@ -41,8 +44,24 @@ class SIM():
     LS2 = [(0, 30), (30, 40), (60, 30), (90, 20), (120, 13), (150, 3), (180, 0), (210, 0), (240, 0), (270, 3), (300, 13), (330, 20)]
     LS3 = [(0, 0), (30, 3), (60, 13), (90, 20), (120, 30), (150, 40), (180, 30), (210, 20), (240, 13), (270, 3), (300, 0), (330, 0)]
 
-    def calcular_Lbs(self, d):
-        return (69.55 + 26.16 * math.log10(self.frec) - 13.82 * math.log10(self.Hb) + (44.9 - 6.55 * math.log10(self.Hb)) * math.log10(d))
+    def calcular_a_hm(self):
+        if self.type_location == "city":
+            if self.frec <= 200:
+                return 8.29 * (math.log10(1.54 * self.Hm))**2 - 1.1
+            else:
+                return 3.2 * (math.log10(11.75 * self.Hm))**2 - 4.97
+        else:
+            return (1.1 * math.log10(self.frec) - 0.7) * self.Hm - (1.56 * math.log10(self.frec) - 0.8)
+
+    def calcular_Lbs(self, d, a):
+        L_medias = (69.55 + 26.16 * math.log10(self.frec) - 13.82 * math.log10(self.Hb) - a + (44.9 - 6.55 * math.log10(self.Hb)) * math.log10(d))
+
+        if self.type_location == "village":
+            return L_medias - 2 * (math.log10(self.frec / 28))**2 - 5.4
+        elif self.type_location == "hamlet":
+            return L_medias - 4.78 * (math.log10(self.frec))**2 + 18.33 * math.log10(self.frec) - 40.94
+        else:
+            return L_medias
 
     def calcular_coordenadas(self, d, angulo):
         R = 6371  # Radio de la Tierra en metros
@@ -64,19 +83,22 @@ class SIM():
     def CalcularPds(self, value):
         Pd = []
         G = self.GTXS1 if value == "Sector 1" else self.GTXS2 if value == "Sector 2" else self.GTXS3 
-        a =  3.2 * (math.log10(11.75 * self.Hm) ** 2) - 4.97
+        a =  self.calcular_a_hm()
+        print(a)
 
         for angulo, gananciatx in G:
             d = 1 / 1000  # Inicializa la distancia en km
             while True:
-                Lbs = self.calcular_Lbs(d)
+                Lbs = self.calcular_Lbs(d, a)
+                #print(Lbs)
+                #print(d)
                 aux = self.PTX + gananciatx - self.LTX - Lbs + self.GRX - self.LRX -self.PerdidasAñadidas - self.Margen
                 if aux <= self.Smax:
                     newLat, newLon = self.calcular_coordenadas(d, angulo)
                     Pd.append((angulo, d, newLat, newLon, aux))
                     break  # Salir del bucle si se encuentra una distancia válida
                 else:
-                    d += (self.steps / 1000)  # Incrementar la distancia
+                    d += (self.steps/1000)  # Incrementar la distancia
                     continue
 
         return Pd
@@ -102,15 +124,36 @@ def calcular():
         value15 = int(radio_var.get())
 
         marker_2 = map_widget.set_marker(value1, value2, text="BTS")
+        
+        geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
 
-        sim = SIM(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15)
+        try:
+            location = geolocator.reverse(f"{value1}, {value2}")  # Pasa las coordenadas como una tupla
+            value16 = location.raw.get('address', {})
+            if "city" in value16:
+                print("Ciudad")
+            elif "town" in value16:
+                print("Pueblo")
+            elif "village" in value16:
+                print("Pueblo pequeño")
+            elif "hamlet" in value16:
+                print("aldea")
+            else:
+                print("campo")
+            print(location.raw)  # Imprime la información de la ubicación
+
+        except Exception as e:
+            print(f"Ocurrió un error: {e}")
+
+        sim = SIM(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16)
         Pd = sim.CalcularPds(sector)
-        #print(Pd)
-
+        
         # Verifica que Pd no esté vacío
         if not Pd:
             print("No se encontraron distancias válidas.")
             return
+
+        print(Pd)
 
         coords = [(lon, lat) for angulo, d, lat, lon, Pd in Pd]
 
