@@ -1,6 +1,5 @@
 from tkinter import *
 import math
-import numpy as np
 from GUI import create_gui  # Importa la función para crear la GUI
 from geopy.geocoders import Nominatim
 
