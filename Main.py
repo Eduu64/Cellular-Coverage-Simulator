@@ -164,7 +164,7 @@ def calcular():
             return
 
         polygon_color = "black" if sector == "Sector 1" else "blue" if sector == "Sector 2" else "red"
-        map_widget.set_polygon(coords, fill_color=None, outline_color=polygon_color, border_width=5)
+        map_widget.set_polygon(coords, fill_color = polygon_color, outline_color=polygon_color, border_width=5)
 
     except ValueError:
         print("Error: Asegúrate de ingresar solo números en todos los campos.")
