@@ -5,6 +5,11 @@ from GUI import create_gui  # Importa la función para crear la GUI
 from geopy.geocoders import Nominatim
 
 class SIM():
+
+    LS1 = [(0, 13), (30, 3), (60, 0), (90, 0), (120, 0), (150, 3), (180, 13), (210, 20), (240, 30), (270, 40), (300, 30), (330, 20)]
+    LS2 = [(0, 30), (30, 40), (60, 30), (90, 20), (120, 13), (150, 3), (180, 0), (210, 0), (240, 0), (270, 3), (300, 13), (330, 20)]
+    LS3 = [(0, 0), (30, 3), (60, 13), (90, 20), (120, 30), (150, 40), (180, 30), (210, 20), (240, 13), (270, 3), (300, 0), (330, 0)]
+    
     def __init__(self, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16):
        
         #UPLINK//DOWNLINK
@@ -40,10 +45,6 @@ class SIM():
         self.GTXS2 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS2]
         self.GTXS3 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS3]
 
-    LS1 = [(0, 13), (30, 3), (60, 0), (90, 0), (120, 0), (150, 3), (180, 13), (210, 20), (240, 30), (270, 40), (300, 30), (330, 20)]
-    LS2 = [(0, 30), (30, 40), (60, 30), (90, 20), (120, 13), (150, 3), (180, 0), (210, 0), (240, 0), (270, 3), (300, 13), (330, 20)]
-    LS3 = [(0, 0), (30, 3), (60, 13), (90, 20), (120, 30), (150, 40), (180, 30), (210, 20), (240, 13), (270, 3), (300, 0), (330, 0)]
-
     def calcular_a_hm(self):
         if self.type_location == "city":
             if self.frec <= 200:
@@ -77,7 +78,8 @@ class SIM():
 
         # Convertir de radianes a grados
         newLat = math.degrees(phi2)
-        newLon = math.degrees(lambda2)
+        newLongrad = math.degrees(lambda2)
+        newLon = (newLongrad + 540) % 360 - 180
         return newLat, newLon
 
     def CalcularPds(self, value):
