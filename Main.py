@@ -9,7 +9,7 @@ class SIM():
     LS2 = [(0, 30), (30, 40), (60, 30), (90, 20), (120, 13), (150, 3), (180, 0), (210, 0), (240, 0), (270, 3), (300, 13), (330, 20)]
     LS3 = [(0, 0), (30, 3), (60, 13), (90, 20), (120, 30), (150, 40), (180, 30), (210, 20), (240, 13), (270, 3), (300, 0), (330, 0)]
     
-    def __init__(self, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16):
+    def __init__(self, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, value17):
        
         #UPLINK//DOWNLINK
         if value15 == 1:
@@ -37,6 +37,7 @@ class SIM():
         self.Margen = value14
 
         self.type_location = value16
+        self.modelo = value17
 
         self.GTXS1 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS1]
         self.GTXS2 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS2]
@@ -81,16 +82,21 @@ class SIM():
 
         for angulo, gananciatx in G:
                 
-                if self.type_location == "village":
-                    d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a + 2*(math.log10(self.frec/28)**2) + 5.4)/(44.9-6.55*math.log10(self.Hb)))
-                elif self.type_location == "hamlet":
-                    d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a + 4.78*(math.log10(self.frec))**2 - 18.33*math.log10(self.frec) + 40.94)/(44.9-6.55*math.log10(self.Hb)))
-                else:
-                    d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a)/(44.9-6.55*math.log10(self.Hb)))
+                if self.modelo == "Okumura Hata":
                 
-                newLat, newLon = self.calcular_coordenadas(d, angulo)
-                Pd.append((angulo, d, newLat, newLon))
-    
+                    if self.type_location == "village":
+                        d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a + 2*(math.log10(self.frec/28)**2) + 5.4)/(44.9-6.55*math.log10(self.Hb)))
+                    elif self.type_location == "hamlet":
+                        d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a + 4.78*(math.log10(self.frec))**2 - 18.33*math.log10(self.frec) + 40.94)/(44.9-6.55*math.log10(self.Hb)))
+                    else:
+                        d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a)/(44.9-6.55*math.log10(self.Hb)))
+                    
+                    newLat, newLon = self.calcular_coordenadas(d, angulo)
+                    Pd.append((angulo, d, newLat, newLon))
+
+                else:
+
+                    print("Error en el modelo escogido")
 
         return Pd
     
@@ -112,6 +118,7 @@ def calcular():
         value13 = int(Entry_id30.get())
         value14 = int(Entry_id31.get())
         value15 = int(radio_var.get())
+        modelo = desplegable2.get()
 
         marker_2 = map_widget.set_marker(value1, value2, text="BTS")
         
@@ -140,7 +147,7 @@ def calcular():
         print(value16)
 
 
-        sim = SIM(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16)
+        sim = SIM(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, modelo)
         Pd = sim.Calculard(sector)
         
         # Verifica que Pd no esté vacío
@@ -165,6 +172,6 @@ def calcular():
 
 
 # Crear la GUI y ejecutar la aplicación
-window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var = create_gui(calcular)
+window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var, desplegable2 = create_gui(calcular)
 
 window.mainloop()
