@@ -9,7 +9,7 @@ class SIM():
     LS2 = [(0, 30), (30, 40), (60, 30), (90, 20), (120, 13), (150, 3), (180, 0), (210, 0), (240, 0), (270, 3), (300, 13), (330, 20)]
     LS3 = [(0, 0), (30, 3), (60, 13), (90, 20), (120, 30), (150, 40), (180, 30), (210, 20), (240, 13), (270, 3), (300, 0), (330, 0)]
     
-    def __init__(self, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16):
+    def __init__(self, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16):
        
         #UPLINK//DOWNLINK
         if value15 == 1:
@@ -24,7 +24,6 @@ class SIM():
             self.GRX = value4 #4
 
 
-
         self.LON = value1
         self.LAT = value2
         
@@ -33,7 +32,6 @@ class SIM():
         self.frec = value8
         self.Hb = value9
         self.Hm = value10
-        self.steps = value11
         self.Smax = value12
         self.PerdidasAñadidas = value13
         self.Margen = value14
@@ -53,17 +51,9 @@ class SIM():
         else:
             return (1.1 * math.log10(self.frec) - 0.7) * self.Hm - (1.56 * math.log10(self.frec) - 0.8)
 
-    def calcular_Lbs(self, d, a):
-        L_medias = (69.55 + 26.16 * math.log10(self.frec) - 13.82 * math.log10(self.Hb) - a + (44.9 - 6.55 * math.log10(self.Hb)) * math.log10(d))
-
-        if self.type_location == "village":
-            return L_medias - 2 * (math.log10(self.frec / 28))**2 - 5.4
-        elif self.type_location == "hamlet":
-            return L_medias - 4.78 * (math.log10(self.frec))**2 + 18.33 * math.log10(self.frec) - 40.94
-        else:
-            return L_medias
 
     def calcular_coordenadas(self, d, angulo):
+        
         R = 6371  # Radio de la Tierra en metros
         phi1 = math.radians(self.LAT)  # Convertir latitud a radianes
         lambda1 = math.radians(self.LON)   # Convertir longitud a radianes
@@ -74,33 +64,33 @@ class SIM():
         # Cálculo de φ2 y λ2 usando las fórmulas proporcionadas
         phi2 = math.asin(math.sin(phi1) * math.cos(Dang) + math.cos(phi1) * math.sin(Dang) * math.cos(ang))
         lambda2 = lambda1 + math.atan2(math.sin(ang) * math.sin(Dang) * math.cos(phi1), math.cos(Dang) - math.sin(phi1) * math.sin(phi2))
-
+       
         # Convertir de radianes a grados
         newLat = math.degrees(phi2)
         newLongrad = math.degrees(lambda2)
-        newLon = (newLongrad + 540) % 360 - 180
+        newLon = (newLongrad + 540) % 360 - 180 
+
+       
         return newLat, newLon
 
-    def CalcularPds(self, value):
+    def Calculard(self, value):
         Pd = []
         G = self.GTXS1 if value == "Sector 1" else self.GTXS2 if value == "Sector 2" else self.GTXS3 
         a =  self.calcular_a_hm()
         print(a)
 
         for angulo, gananciatx in G:
-            d = 1 / 1000  # Inicializa la distancia en km
-            while True:
-                Lbs = self.calcular_Lbs(d, a)
-                #print(Lbs)
-                #print(d)
-                aux = self.PTX + gananciatx - self.LTX - Lbs + self.GRX - self.LRX -self.PerdidasAñadidas - self.Margen
-                if aux <= self.Smax:
-                    newLat, newLon = self.calcular_coordenadas(d, angulo)
-                    Pd.append((angulo, d, newLat, newLon, aux))
-                    break  # Salir del bucle si se encuentra una distancia válida
+                
+                if self.type_location == "village":
+                    d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a + 2*(math.log10(self.frec/28)**2) + 5.4)/(44.9-6.55*math.log10(self.Hb)))
+                elif self.type_location == "hamlet":
+                    d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a + 4.78*(math.log10(self.frec))**2 - 18.33*math.log10(self.frec) + 40.94)/(44.9-6.55*math.log10(self.Hb)))
                 else:
-                    d += (self.steps/1000)  # Incrementar la distancia
-                    continue
+                    d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a)/(44.9-6.55*math.log10(self.Hb)))
+                
+                newLat, newLon = self.calcular_coordenadas(d, angulo)
+                Pd.append((angulo, d, newLat, newLon))
+    
 
         return Pd
     
@@ -117,7 +107,6 @@ def calcular():
         value8 = int(Entry_id21.get())
         value9 = int(Entry_id23.get())
         value10 = int(Entry_id24.get())
-        value11 = int(Entry_id27.get())
         value12 = int(Entry_id29.get())
         sector = desplegable.get()
         value13 = int(Entry_id30.get())
@@ -128,26 +117,31 @@ def calcular():
         
         geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
 
-        try:
-            location = geolocator.reverse(f"{value1}, {value2}")  # Pasa las coordenadas como una tupla
-            value16 = location.raw.get('address', {})
-            if "city" in value16:
-                print("Ciudad")
-            elif "town" in value16:
-                print("Pueblo")
-            elif "village" in value16:
-                print("Pueblo pequeño")
-            elif "hamlet" in value16:
-                print("aldea")
-            else:
-                print("campo")
-            print(location.raw)  # Imprime la información de la ubicación
+        
+        location = geolocator.reverse(f"{value1}, {value2}")  # Pasa las coordenadas como una tupla
+        value16 = location.raw.get('address', {})
+        if 'hamlet' in value16:
+            print("hamlet")
+            value16 = 'hamlet'
+        elif 'village' in value16:
+            print("village")
+            value16 = 'village'
+        elif 'town' in value16:
+            print("town")
+            value16 = 'town'
+        elif 'city' in value16:
+            print("city")
+            value16 = 'city'
+        else:
+            print("campo")
+            value16 = 'campo'
 
-        except Exception as e:
-            print(f"Ocurrió un error: {e}")
+        print(location.raw)  # Imprime la información de la ubicación
+        print(value16)
 
-        sim = SIM(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value11, value12, value13, value14, value15, value16)
-        Pd = sim.CalcularPds(sector)
+
+        sim = SIM(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16)
+        Pd = sim.Calculard(sector)
         
         # Verifica que Pd no esté vacío
         if not Pd:
@@ -156,7 +150,7 @@ def calcular():
 
         print(Pd)
 
-        coords = [(lon, lat) for angulo, d, lat, lon, Pd in Pd]
+        coords = [(lon, lat) for angulo, d, lat, lon in Pd]
 
         # Verifica que coords no esté vacío
         if not coords:
@@ -171,6 +165,6 @@ def calcular():
 
 
 # Crear la GUI y ejecutar la aplicación
-window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id27, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var = create_gui(calcular)
+window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var = create_gui(calcular)
 
 window.mainloop()

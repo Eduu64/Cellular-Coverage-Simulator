@@ -73,25 +73,20 @@ def create_gui(calcular_callback):
     Entry_id24 = customtkinter.CTkEntry(master=window, placeholder_text="Hm")
     Entry_id24.place(x=150, y=450)  
 
-    Label_id28 = Label(window, text="Steps", font=("Arial", 14), bg="#FFFFFF")
-    Label_id28.place(x=10, y=490)
-    Entry_id27 = customtkinter.CTkEntry(master=window, placeholder_text="Steps")
-    Entry_id27.place(x=150, y=490)  
-
     Label_id30 = Label(window, text="Cobertura", font=("Arial", 14), bg="#FFFFFF")
-    Label_id30.place(x=10, y=530)
+    Label_id30.place(x=10, y=490)
     Entry_id29 = customtkinter.CTkEntry(master=window, placeholder_text="Cobertura")
-    Entry_id29.place(x=150, y=530)  
+    Entry_id29.place(x=150, y=490)  
 
     Label_id31 = Label(window, text="Per. Añadidas", font=("Arial", 14), bg="#FFFFFF")
-    Label_id31.place(x=10, y=570)
+    Label_id31.place(x=10, y=530)
     Entry_id30 = customtkinter.CTkEntry(master=window, placeholder_text="Per. Añadidas")
-    Entry_id30.place(x=150, y=570)  
+    Entry_id30.place(x=150, y=530)  
 
     Label_id32 = Label(window, text="Margen", font=("Arial", 14), bg="#FFFFFF")
-    Label_id32.place(x=10, y=610)
+    Label_id32.place(x=10, y=570)
     Entry_id31 = customtkinter.CTkEntry(master=window, placeholder_text="Margen")
-    Entry_id31.place(x=150, y=610)  
+    Entry_id31.place(x=150, y=570)  
 
     radio_var = IntVar()
     RadioButton_id9 = customtkinter.CTkRadioButton(
@@ -104,7 +99,7 @@ def create_gui(calcular_callback):
         fg_color="#808080",
         hover_color="#2F2F2F",
     )
-    RadioButton_id9.place(x=10, y=650)
+    RadioButton_id9.place(x=10, y=620)
 
     RadioButton_id10 = customtkinter.CTkRadioButton(
         master=window,
@@ -116,10 +111,13 @@ def create_gui(calcular_callback):
         fg_color="#808080",
         hover_color="#2F2F2F",
     )
-    RadioButton_id10.place(x=10, y=690)  
+    RadioButton_id10.place(x=10, y=660)  
 
     desplegable = ttk.Combobox(window, width=50, values=["Sector 1", "Sector 2", "Sector 3"])
-    desplegable.place(x=10, y=730)
+    desplegable.place(x=10, y=700)
+
+    desplegable2 = ttk.Combobox(window, width=50, values=["Okumura Hata"])
+    desplegable2.place(x=10, y=740)
 
     Button_id22 = customtkinter.CTkButton(
         master=window,
@@ -130,7 +128,7 @@ def create_gui(calcular_callback):
         text="Calcular",
         command=calcular_callback
     )
-    Button_id22.place(x=170, y=670)
+    Button_id22.place(x=170, y=640)
 
     # Configuración del mapa
     my_label = LabelFrame(window)
@@ -141,4 +139,4 @@ def create_gui(calcular_callback):
     map_widget.set_zoom(12)
     map_widget.pack()
 
-    return window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id27, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var
+    return window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var
