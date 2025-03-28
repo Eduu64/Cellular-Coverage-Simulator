@@ -13,27 +13,50 @@ def create_gui(calcular_callback):
     def buscar_ciudad():
         overpass_url = 'https://overpass-api.de/api/interpreter'
         ciudad = Entry_city.get()
-        
+
         overpass_query = f'''
         [out:json][timeout:600];
         area[name="{ciudad}"]; 
         ( 
-        relation[type="boundary"]["boundary"="administrative"]["admin_level"="9"](area); 
+        relation[type="boundary"]["boundary"="administrative"](area); 
+        ); 
+        out center; 
+        '''
+        response = requests.get(overpass_url, params={'data': overpass_query})
+
+        data = response.json()
+
+        # Obtener el admin_level
+        admin_level = data['elements'][0]['tags']['admin_level']
+
+        print(admin_level)
+
+        overpass_query = f'''
+        [out:json][timeout:600];
+        area[name="{ciudad}"]; 
+        ( 
+        relation[type="boundary"]["boundary"="administrative"]["admin_level"="{admin_level}"](area); 
         ); 
         out geom; 
         '''
         response = requests.get(overpass_url, params={'data': overpass_query})
         if response.status_code == 200:
             data = response.json()
+            data_filtered  = [element for element in data['elements'] if element.get('tags', {}).get('name') == ciudad]
+            print(data_filtered )
             coordinates = []
  
-            for element in data["elements"]:
-                for members in element["members"]:
-                    if members["type"] == "way":
-                        for geometry in members["geometry"]:
-                                    coordinates.append((geometry["lat"], geometry["lon"]))
-                                    break
-                        
+            # Iterar sobre los elementos
+            for element in data_filtered:
+                # Iterar sobre los miembros de cada elemento
+                for member in element.get('members', []):
+                    # Verificar si el miembro es un 'way' con rol 'outer'
+                    if member['type'] == 'way':
+                        # Obtener las coordenadas
+                        for geometry in member.get("geometry", []):
+                            coordinates.append((geometry["lat"], geometry["lon"]))
+                            break
+
             map_widget.set_polygon(coordinates,fill_color=None, outline_color="Black", border_width=4)
 
         else:
@@ -182,7 +205,7 @@ def create_gui(calcular_callback):
     text="Buscar",
     command=buscar_ciudad)
 
-    Button_buscar.place(x=850, y=10)  # Ajustar la posición según sea necesario
+    Button_buscar.place(x=840, y=10)  # Ajustar la posición según sea necesario
 
     # Campo de entrada para la ciudad
     Entry_city = customtkinter.CTkEntry(master=window, placeholder_text="Nombre de la ciudad",width=350)
