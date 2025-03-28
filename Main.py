@@ -3,6 +3,8 @@ import math
 from GUI import create_gui  # Importa la función para crear la GUI
 from geopy.geocoders import Nominatim
 
+
+
 class SIM():
 
     LS1 = [(0, 13), (30, 3), (60, 0), (90, 0), (120, 0), (150, 3), (180, 13), (210, 20), (240, 30), (270, 40), (300, 30), (330, 20)]
@@ -102,6 +104,7 @@ class SIM():
     
 
 def calcular():
+
     try:
         value1 = float(Entry_id1.get())
         value2 = float(Entry_id2.get())
@@ -119,9 +122,17 @@ def calcular():
         value14 = int(Entry_id31.get())
         value15 = int(radio_var.get())
         modelo = desplegable2.get()
-
-        marker_2 = map_widget.set_marker(value1, value2, text="BTS")
         
+        try:
+            
+            icon = PhotoImage(file="Proyecto\Antena.png")  # Cambiar path relativa en cada caso
+            marker_2 = map_widget.set_marker(value1, value2, text="BTS", icon=icon)
+        
+        except Exception :
+
+            marker_2 = map_widget.set_marker(value1, value2, text="BTS")
+
+
         geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
 
         
@@ -174,4 +185,6 @@ def calcular():
 # Crear la GUI y ejecutar la aplicación
 window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var, desplegable2 = create_gui(calcular)
 
+
 window.mainloop()
+

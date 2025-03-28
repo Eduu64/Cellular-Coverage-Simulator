@@ -3,8 +3,43 @@ from tkinter import *
 from tkinter import ttk
 import tkintermapview
 import customtkinter
+import requests
+
+
 
 def create_gui(calcular_callback):
+
+    # Botón para buscar la ciudad
+    def buscar_ciudad():
+        overpass_url = 'https://overpass-api.de/api/interpreter'
+        ciudad = Entry_city.get()
+        
+        overpass_query = f'''
+        [out:json][timeout:600];
+        area[name="{ciudad}"]; 
+        ( 
+        relation[type="boundary"]["boundary"="administrative"]["admin_level"="9"](area); 
+        ); 
+        out geom; 
+        '''
+        response = requests.get(overpass_url, params={'data': overpass_query})
+        if response.status_code == 200:
+            data = response.json()
+            coordinates = []
+ 
+            for element in data["elements"]:
+                for members in element["members"]:
+                    if members["type"] == "way":
+                        for geometry in members["geometry"]:
+                                    coordinates.append((geometry["lat"], geometry["lon"]))
+                                    break
+                        
+            map_widget.set_polygon(coordinates,fill_color=None, outline_color="Black", border_width=4)
+
+        else:
+            print(f"Error: {response.status_code}")
+
+
     window = Tk()
 
     window.title("Cellular Coverage Simulator")
@@ -134,9 +169,23 @@ def create_gui(calcular_callback):
     my_label = LabelFrame(window)
     my_label.pack(side=RIGHT)
 
-    map_widget = tkintermapview.TkinterMapView(my_label, width=650, height=1000)
+    map_widget = tkintermapview.TkinterMapView(my_label, width=650, height=1000, corner_radius=0)
     map_widget.set_position(40.41, -3.7)
     map_widget.set_zoom(12)
     map_widget.pack()
+
+    Button_buscar = customtkinter.CTkButton(
+    master=window,
+    fg_color="BLACK",  # Color del botón
+    hover_color="BLACK",  # Color del botón al pasar el mouse
+    font=("Montserrat", 16),  # Fuente utilizada
+    text="Buscar",
+    command=buscar_ciudad)
+
+    Button_buscar.place(x=850, y=10)  # Ajustar la posición según sea necesario
+
+    # Campo de entrada para la ciudad
+    Entry_city = customtkinter.CTkEntry(master=window, placeholder_text="Nombre de la ciudad",width=350)
+    Entry_city.place(x=480, y=10)  # Ajustar la posición según sea necesario
 
     return window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var, desplegable2
