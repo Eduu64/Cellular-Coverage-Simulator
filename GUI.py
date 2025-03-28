@@ -6,13 +6,13 @@ import customtkinter
 import requests
 
 
-
 def create_gui(calcular_callback):
-
     # Botón para buscar la ciudad
+    
     def buscar_ciudad():
         overpass_url = 'https://overpass-api.de/api/interpreter'
         ciudad = Entry_city.get()
+
 
         overpass_query = f'''
         [out:json][timeout:600];
@@ -27,40 +27,46 @@ def create_gui(calcular_callback):
         data = response.json()
 
         # Obtener el admin_level
-        admin_level = data['elements'][0]['tags']['admin_level']
-
-        print(admin_level)
-
-        overpass_query = f'''
-        [out:json][timeout:600];
-        area[name="{ciudad}"]; 
-        ( 
-        relation[type="boundary"]["boundary"="administrative"]["admin_level"="{admin_level}"](area); 
-        ); 
-        out geom; 
-        '''
-        response = requests.get(overpass_url, params={'data': overpass_query})
         if response.status_code == 200:
-            data = response.json()
-            data_filtered  = [element for element in data['elements'] if element.get('tags', {}).get('name') == ciudad]
-            print(data_filtered )
-            coordinates = []
- 
-            # Iterar sobre los elementos
-            for element in data_filtered:
-                # Iterar sobre los miembros de cada elemento
-                for member in element.get('members', []):
-                    # Verificar si el miembro es un 'way' con rol 'outer'
-                    if member['type'] == 'way':
-                        # Obtener las coordenadas
-                        for geometry in member.get("geometry", []):
-                            coordinates.append((geometry["lat"], geometry["lon"]))
-                            break
 
-            map_widget.set_polygon(coordinates,fill_color=None, outline_color="Black", border_width=4)
+            admin_level = data['elements'][0]['tags']['admin_level']
+            print(admin_level)
 
+            overpass_query = f'''
+            [out:json][timeout:600];
+            area[name="{ciudad}"]; 
+            ( 
+            relation[type="boundary"]["boundary"="administrative"]["admin_level"="{admin_level}"](area); 
+            ); 
+            out geom; 
+            '''
+            response = requests.get(overpass_url, params={'data': overpass_query})
+            if response.status_code == 200:
+                data = response.json()
+                data_filtered  = [element for element in data['elements'] if element.get('tags', {}).get('name') == ciudad]
+                print(data_filtered )
+                coordinates = []
+
+                # Iterar sobre los elementos
+                for element in data_filtered:
+                    # Iterar sobre los miembros de cada elemento
+                    for member in element.get('members', []):
+                        # Verificar si el miembro es un 'way' con rol 'outer'
+                        if member['type'] == 'way':
+                            # Obtener las coordenadas
+                            for geometry in member.get("geometry", []):
+                                coordinates.append((geometry["lat"], geometry["lon"]))
+                                break
+                
+                map_widget.set_polygon(coordinates,fill_color=None, outline_color="Black", border_width=4)
+
+            else:
+                print(f"Error: {response.status_code}")
         else:
-            print(f"Error: {response.status_code}")
+                print(f"Error: {response.status_code}")
+
+
+
 
 
     window = Tk()
