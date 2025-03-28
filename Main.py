@@ -60,7 +60,7 @@ class SIM():
         R = 6371  # Radio de la Tierra en metros
         phi1 = math.radians(self.LAT)  # Convertir latitud a radianes
         lambda1 = math.radians(self.LON)   # Convertir longitud a radianes
-        ang = math.radians(angulo)       # Convertir ángulo a radianes
+        ang = math.radians((angulo-90) % 360 )       # Convertir ángulo a radianes 
 
         Dang = d / R  # Distancia angular
 
@@ -71,6 +71,7 @@ class SIM():
         # Convertir de radianes a grados
         newLat = math.degrees(phi2)
         newLongrad = math.degrees(lambda2)
+
         newLon = (newLongrad + 540) % 360 - 180 
 
        
