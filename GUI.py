@@ -4,7 +4,18 @@ from tkinter import ttk
 import tkintermapview
 import customtkinter
 import requests
+from shapely.geometry import Polygon
+from pyproj import Proj, Transformer
 
+class Area:
+    Area = 0
+    def getArea(self):
+        return self.Area
+    def setArea(self,Area):
+        self.Area += Area
+
+
+a = Area()
 
 def create_gui(calcular_callback):
     # Botón para buscar la ciudad
@@ -59,6 +70,26 @@ def create_gui(calcular_callback):
                                 break
                 
                 map_widget.set_polygon(coordinates,fill_color=None, outline_color="Black", border_width=4)
+
+                # Transformador de coordenadas geográficas a UTM
+                transformer = Transformer.from_crs("EPSG:4326", "EPSG:32630", always_xy=True)  # EPSG:32614 es para México central
+
+                # Convertimos las coordenadas a metros usando UTM
+                utm_coords = [transformer.transform(lon, lat) for lat, lon in coordinates]
+
+                # Creamos el polígono con coordenadas en metros
+                poligono = Polygon(utm_coords)
+
+                # Calculamos el área en metros cuadrados
+                area_m2 = poligono.area
+
+                area_km2 = (area_m2)/1000000
+
+                a.setArea(area_km2)
+
+                print(f"Área del polígono: {area_km2:.2f} km²")
+                print(f"Área del polígono: {a.getArea():.2f} km²")
+
 
             else:
                 print(f"Error: {response.status_code}")
