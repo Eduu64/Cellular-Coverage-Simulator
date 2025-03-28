@@ -6,7 +6,8 @@ In process
 > tkintermapview <br/>
 >  customtkinter <br/>
 > math <br/>
-> geopy
+> geopy <br/>
+> Json
 
 ## DEMOSTRACIÓN
 
