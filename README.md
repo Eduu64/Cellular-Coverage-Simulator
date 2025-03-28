@@ -10,6 +10,6 @@ In process
 
 ## DEMOSTRACIÓN
 
-![image](https://github.com/user-attachments/assets/776a4dc9-8375-4bfd-be36-1809c243a4a5)
+![image](https://github.com/user-attachments/assets/e8c3f671-1428-4205-a871-13c6dc487941)
 
 ![image](https://github.com/user-attachments/assets/73560d4e-93f2-4f7f-9585-4565e90bb156)
