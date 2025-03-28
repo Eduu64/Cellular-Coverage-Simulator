@@ -9,10 +9,12 @@ from pyproj import Proj, Transformer
 
 class Area:
     Area = 0
+
     def getArea(self):
         return self.Area
+    
     def setArea(self,Area):
-        self.Area += Area
+        self.Area +=  Area
 
 
 a = Area()
@@ -72,7 +74,7 @@ def create_gui(calcular_callback):
                 map_widget.set_polygon(coordinates,fill_color=None, outline_color="Black", border_width=4)
 
                 # Transformador de coordenadas geográficas a UTM
-                transformer = Transformer.from_crs("EPSG:4326", "EPSG:32630", always_xy=True)  # EPSG:32614 es para México central
+                transformer = Transformer.from_crs("EPSG:4326", "EPSG:32630", always_xy=True)  
 
                 # Convertimos las coordenadas a metros usando UTM
                 utm_coords = [transformer.transform(lon, lat) for lat, lon in coordinates]
@@ -89,6 +91,8 @@ def create_gui(calcular_callback):
 
                 print(f"Área del polígono: {area_km2:.2f} km²")
                 print(f"Área del polígono: {a.getArea():.2f} km²")
+                LabelAreaset.config(text=round(area_km2,2))
+                LabelTotalAreaset.config(text=round(a.getArea(),2))
 
 
             else:
@@ -104,7 +108,7 @@ def create_gui(calcular_callback):
 
     window.title("Cellular Coverage Simulator")
 
-    window.geometry("1000x800")
+    window.geometry("1000x900")
 
     # Bloquear el redimensionamiento de la ventana
     window.resizable(False, False)  # (ancho, alto)
@@ -247,5 +251,21 @@ def create_gui(calcular_callback):
     # Campo de entrada para la ciudad
     Entry_city = customtkinter.CTkEntry(master=window, placeholder_text="Nombre de la ciudad",width=350)
     Entry_city.place(x=480, y=10)  # Ajustar la posición según sea necesario
+
+    LabelArea = Label(window, text="Area Territorio:", font=("Arial", 14), bg="#FFFFFF")
+    LabelAreaset = Label(window, text="0", font=("Arial", 14), bg="#FFFFFF")
+    LabelArea.place(x=10, y=780)
+    LabelAreaset.place(x=150, y=780)
+
+    LabelTotalArea = Label(window, text="Area Total Territorio:", font=("Arial", 14), bg="#FFFFFF")
+    LabelTotalAreaset = Label(window, text="0", font=("Arial", 14), bg="#FFFFFF")
+    LabelTotalArea.place(x=10, y=820)
+    LabelTotalAreaset.place(x=200, y=820)
+
+    Labelenodes = Label(window, text="eNodes necesarios:", font=("Arial", 14), bg="#FFFFFF")
+    Labelenodesset = Label(window, text="0", font=("Arial", 14), bg="#FFFFFF")
+    Labelenodes.place(x=10, y=860)
+    Labelenodesset.place(x=200, y=860)
+
 
     return window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var, desplegable2

@@ -188,4 +188,3 @@ window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Ent
 
 
 window.mainloop()
-
