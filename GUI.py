@@ -5,17 +5,23 @@ import tkintermapview
 import customtkinter
 import requests
 from shapely.geometry import Polygon
-from pyproj import Proj, Transformer
+from pyproj import Transformer
+import math
 
 class Area:
     Area = 0
-
+    AreaCobertura = 0
     def getArea(self):
         return self.Area
     
     def setArea(self,Area):
         self.Area +=  Area
 
+    def setAreaeNode(self,Area):
+        self.AreaCobertura = Area
+
+    def getAreaCobertura(self):
+        return self.AreaCobertura
 
 a = Area()
 
@@ -93,6 +99,9 @@ def create_gui(calcular_callback):
                 print(f"Área del polígono: {a.getArea():.2f} km²")
                 LabelAreaset.config(text=round(area_km2,2))
                 LabelTotalAreaset.config(text=round(a.getArea(),2))
+                eNodes = a.getArea()/ a.getAreaCobertura()
+                Labelenodesset.config(text=math.ceil(eNodes))
+
 
 
             else:
@@ -212,7 +221,7 @@ def create_gui(calcular_callback):
     )
     RadioButton_id10.place(x=10, y=660)  
 
-    desplegable = ttk.Combobox(window, width=50, values=["Sector 1", "Sector 2", "Sector 3"])
+    desplegable = ttk.Combobox(window, width=50, values=["Cálculo eNodes","Sector 1", "Sector 2", "Sector 3"])
     desplegable.place(x=10, y=700)
 
     desplegable2 = ttk.Combobox(window, width=50, values=["Okumura Hata"])

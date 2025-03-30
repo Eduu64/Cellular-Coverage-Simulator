@@ -1,7 +1,9 @@
 from tkinter import *
 import math
-from GUI import create_gui  # Importa la función para crear la GUI
+from GUI import create_gui, a  # Importa la función para crear la GUI
 from geopy.geocoders import Nominatim
+from pyproj import Transformer
+from shapely.geometry import Polygon
 
 
 
@@ -123,15 +125,7 @@ def calcular():
         value14 = int(Entry_id31.get())
         value15 = int(radio_var.get())
         modelo = desplegable2.get()
-        
-        try:
-            
-            icon = PhotoImage(file="Proyecto\Antena.png")  # Cambiar path relativa en cada caso
-            marker_2 = map_widget.set_marker(value1, value2, text="BTS", icon=icon)
-        
-        except Exception :
 
-            marker_2 = map_widget.set_marker(value1, value2, text="BTS")
 
 
         geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
@@ -139,6 +133,7 @@ def calcular():
         
         location = geolocator.reverse(f"{value1}, {value2}")  # Pasa las coordenadas como una tupla
         value16 = location.raw.get('address', {})
+
         if 'hamlet' in value16:
             print("hamlet")
             value16 = 'hamlet'
@@ -176,8 +171,39 @@ def calcular():
             print("No se generaron coordenadas válidas.")
             return
 
-        polygon_color = "black" if sector == "Sector 1" else "blue" if sector == "Sector 2" else "red"
-        map_widget.set_polygon(coords, fill_color = polygon_color, outline_color=polygon_color, border_width=5)
+        if sector != "Cálculo eNodes":
+            try:
+            
+                icon = PhotoImage(file="Proyecto\Antena.png")  # Cambiar path relativa en cada caso
+                marker_2 = map_widget.set_marker(value1, value2, text="BTS", icon=icon)
+        
+            except Exception :
+
+                marker_2 = map_widget.set_marker(value1, value2, text="BTS")
+
+            polygon_color = "black" if sector == "Sector 1" else "blue" if sector == "Sector 2" else "red"
+            map_widget.set_polygon(coords, fill_color = polygon_color, outline_color=polygon_color, border_width=5)
+
+        else:
+            # Transformador de coordenadas geográficas a UTM
+                transformer = Transformer.from_crs("EPSG:4326", "EPSG:32630", always_xy=True)  
+
+                # Convertimos las coordenadas a metros usando UTM
+                utm_coords = [transformer.transform(lon, lat) for lat, lon in coords]
+
+                # Creamos el polígono con coordenadas en metros
+                poligono = Polygon(utm_coords)
+
+                # Calculamos el área en metros cuadrados
+                area_m2 = poligono.area
+
+                area_km2 = (area_m2)/1000000
+
+                area_km2 *= 3
+
+                print(f"Área de cobertura: {area_km2} km²")
+                a.setAreaeNode(area_km2)
+
 
     except ValueError:
         print("Error: Asegúrate de ingresar solo números en todos los campos.")
