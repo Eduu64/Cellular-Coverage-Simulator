@@ -4,10 +4,12 @@ In process
 ## LIBRERIAS
 > tkinter <br/>
 > tkintermapview <br/>
->  customtkinter <br/>
+> customtkinter <br/>
 > math <br/>
 > geopy <br/>
-> Json
+> pyproj <br/>
+> shapely <br/>
+> requests
 
 ## DEMOSTRACIÓN
 
