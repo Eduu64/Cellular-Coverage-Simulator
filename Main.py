@@ -172,6 +172,7 @@ def calcular():
             return
 
         if sector != "Cálculo eNodes":
+            
             try:
             
                 icon = PhotoImage(file="Proyecto\Antena.png")  # Cambiar path relativa en cada caso
@@ -179,27 +180,20 @@ def calcular():
         
             except Exception :
 
-                marker_2 = map_widget.set_marker(value1, value2, text="BTS")
+                marker_2 = map_widget.set_marker(value1, value2, text="BTS") # Si no encuentra path de la imagen pone default
 
             polygon_color = "black" if sector == "Sector 1" else "blue" if sector == "Sector 2" else "red"
             map_widget.set_polygon(coords, fill_color = polygon_color, outline_color=polygon_color, border_width=5)
 
         else:
-            # Transformador de coordenadas geográficas a UTM
-                transformer = Transformer.from_crs("EPSG:4326", "EPSG:32630", always_xy=True)  
-
-                # Convertimos las coordenadas a metros usando UTM
-                utm_coords = [transformer.transform(lon, lat) for lat, lon in coords]
-
-                # Creamos el polígono con coordenadas en metros
-                poligono = Polygon(utm_coords)
+                
+                for item in Pd:
+                    if item[0] == 330:
+                        d_max = item[1]  # Accedemos a distancia maxima
+                        break
 
                 # Calculamos el área en metros cuadrados
-                area_m2 = poligono.area
-
-                area_km2 = (area_m2)/1000000
-
-                area_km2 *= 3
+                area_km2 = ((9*math.sqrt(3))/(8))*(d_max**2) # Area celda trisectorial
 
                 print(f"Área de cobertura: {area_km2} km²")
                 a.setAreaeNode(area_km2)
