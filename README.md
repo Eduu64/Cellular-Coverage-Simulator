@@ -1,5 +1,5 @@
 # Cellular-Coverage-Simulator
-In process
+In progess
 
 ## LIBRERIAS
 > tkinter <br/>
