@@ -2,8 +2,7 @@ from tkinter import *
 import math
 from GUI import create_gui, a  # Importa la función para crear la GUI
 from geopy.geocoders import Nominatim
-from geopy import Point
-from geopy.distance import geodesic
+
 
 
 
