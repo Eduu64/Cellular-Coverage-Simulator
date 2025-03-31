@@ -1,5 +1,26 @@
 # Cellular-Coverage-Simulator
-In progess
+## Instrucciones
+Para la estimación de las bases necesarias:
+
+1º Rellenar los parámetros, incluyendo las coordenadas y el modelo de estudio, para que el programa pueda identificar el tipo de demografía de la localidad a estudiar. (Las coordenadas se pueden copiar haciendo clic derecho en el mapa y luego clic izquierdo sobre las coordenadas).
+
+2º Seleccionar la opción "Cálculo de eNodes" en el desplegable.
+
+3º Hacer clic en el botón "Calcular".
+
+4º Añadir las ciudades a estudiar en el buscador y hacer clic en "Buscar".
+
+Para la simulación de radiación de la base:
+
+1º Rellenar los parámetros, incluyendo las coordenadas y el modelo de estudio, para que el programa pueda identificar el tipo de demografía de la localidad a analizar. (Las coordenadas se pueden copiar haciendo clic derecho en el mapa y luego clic izquierdo sobre las coordenadas).
+
+2º Seleccionar el sector a estudiar en el desplegable.
+
+3º Hacer clic en el botón "Calcular".
+
+📌 Nota: Es posible automatizar el estudio de los tres sectores y la adición de coordenadas haciendo clic derecho en el mapa y luego clic izquierdo sobre "Añadir BTS".
+
+
 
 ## LIBRERIAS
 > tkinter <br/>
