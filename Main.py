@@ -2,8 +2,8 @@ from tkinter import *
 import math
 from GUI import create_gui, a  # Importa la función para crear la GUI
 from geopy.geocoders import Nominatim
-from pyproj import Transformer
-from shapely.geometry import Polygon
+from geopy import Point
+from geopy.distance import geodesic
 
 
 
@@ -28,8 +28,8 @@ class SIM():
             self.GRX = value4 #4
 
 
-        self.LON = value1
-        self.LAT = value2
+        self.LAT = value1
+        self.LON = value2
         
         self.PTX = value3
 
@@ -47,7 +47,9 @@ class SIM():
         self.GTXS2 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS2]
         self.GTXS3 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS3]
 
+
     def calcular_a_hm(self):
+        
         if self.type_location == "city":
             if self.frec <= 200:
                 return 8.29 * (math.log10(1.54 * self.Hm))**2 - 1.1
@@ -55,14 +57,14 @@ class SIM():
                 return 3.2 * (math.log10(11.75 * self.Hm))**2 - 4.97
         else:
             return (1.1 * math.log10(self.frec) - 0.7) * self.Hm - (1.56 * math.log10(self.frec) - 0.8)
-
+        
 
     def calcular_coordenadas(self, d, angulo):
-        
-        R = 6371  # Radio de la Tierra en metros
+
+        R = 6378  # Radio de la Tierra en metros
         phi1 = math.radians(self.LAT)  # Convertir latitud a radianes
         lambda1 = math.radians(self.LON)   # Convertir longitud a radianes
-        ang = math.radians((angulo-90) % 360 )       # Convertir ángulo a radianes 
+        ang = math.radians((angulo) % 360 )       # Convertir ángulo a radianes 
 
         Dang = d / R  # Distancia angular
 
@@ -79,11 +81,22 @@ class SIM():
        
         return newLat, newLon
 
+
+
+
     def Calculard(self, value):
         Pd = []
-        G = self.GTXS1 if value == "Sector 1" else self.GTXS2 if value == "Sector 2" else self.GTXS3 
+
+        if value == "Sector 1":
+            G = self.GTXS1 
+        elif value == "Sector 2":
+            G = self.GTXS2
+        else:
+            G = self.GTXS3
+
+        #print(G)
         a =  self.calcular_a_hm()
-        print(a)
+        #print(a)
 
         for angulo, gananciatx in G:
                 
@@ -126,8 +139,6 @@ def calcular():
         value15 = int(radio_var.get())
         modelo = desplegable2.get()
 
-
-
         geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
 
         
@@ -150,8 +161,8 @@ def calcular():
             print("campo")
             value16 = 'campo'
 
-        print(location.raw)  # Imprime la información de la ubicación
-        print(value16)
+        #print(location.raw)  # Imprime la información de la ubicación
+        #print(value16)
 
 
         sim = SIM(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, modelo)
@@ -163,8 +174,8 @@ def calcular():
             return
 
         print(Pd)
-
-        coords = [(lon, lat) for angulo, d, lat, lon in Pd]
+        coords = []
+        coords = [(lat, lon) for angulo, d, lat, lon in Pd]
 
         # Verifica que coords no esté vacío
         if not coords:
@@ -184,6 +195,35 @@ def calcular():
 
             polygon_color = "black" if sector == "Sector 1" else "blue" if sector == "Sector 2" else "red"
             map_widget.set_polygon(coords, fill_color = polygon_color, outline_color=polygon_color, border_width=5)
+
+
+
+            max_value = (max(Pd, key=lambda x: x[1]))
+            d_bts = (max_value[1])*1.82
+
+            print(f'Maxima distancia: {d_bts}')
+
+            if sector == "Sector 1":
+                x = 90
+            elif sector == "Sector 2":
+                x = 210
+            elif sector == "Sector 3":
+                x = 330
+            else:  
+                None
+            
+
+            dr_bts_latitude, dr_bts_longitude  = sim.calcular_coordenadas(d_bts,x)
+
+            try:
+                icon = PhotoImage(file="Proyecto\cross.png")  # Cambiar path relativa en cada caso
+                map_widget.set_marker(dr_bts_latitude, dr_bts_longitude, text = "", icon=icon)
+
+            except Exception :
+                map_widget.set_marker(dr_bts_latitude, dr_bts_longitude, text = "")
+
+           
+         
 
         else:
                 
