@@ -13,7 +13,7 @@ In progess
 
 ## DEMOSTRACIÓN
 
-![image](https://github.com/user-attachments/assets/08584c28-a9cd-4416-8b04-ba83624c48a2)
+![image](https://github.com/user-attachments/assets/51880250-810c-467e-9a76-bfe5a670f0b1)
 
 ![image](https://github.com/user-attachments/assets/5ce8b7bb-83f9-44e8-9db2-35885dc13c4b)
 
