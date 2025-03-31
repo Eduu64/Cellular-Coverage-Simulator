@@ -1,8 +1,9 @@
 from tkinter import *
+from tkinter import ttk
+import tkinter as ttk
 import math
 from GUI import create_gui, a  # Importa la función para crear la GUI
 from geopy.geocoders import Nominatim
-
 
 
 
@@ -121,22 +122,25 @@ class SIM():
 def calcular():
 
     try:
+
         value1 = float(Entry_id1.get())
         value2 = float(Entry_id2.get())
-        value3 = int(Entry_id3.get())
-        value4 = int(Entry_id13.get())
-        value5 = int(Entry_id15.get())
-        value6 = int(Entry_id17.get())
-        value7 = int(Entry_id16.get())
-        value8 = int(Entry_id21.get())
-        value9 = int(Entry_id23.get())
-        value10 = int(Entry_id24.get())
-        value12 = int(Entry_id29.get())
+        value3 = float(Entry_id3.get())
+        value4 = float(Entry_id13.get())
+        value5 = float(Entry_id15.get())
+        value6 = float(Entry_id17.get())
+        value7 = float(Entry_id16.get())
+        value8 = float(Entry_id21.get())
+        value9 = float(Entry_id23.get())
+        value10 = float(Entry_id24.get())
+        value12 = float(Entry_id29.get())
         sector = desplegable.get()
-        value13 = int(Entry_id30.get())
-        value14 = int(Entry_id31.get())
-        value15 = int(radio_var.get())
+        value13 = float(Entry_id30.get())
+        value14 = float(Entry_id31.get())
+        value15 = float(radio_var.get())
         modelo = desplegable2.get()
+
+        #print(f"value1: {value1}, value2: {value2}, value3: {value3}, value4: {value4}, value5: {value5}, " f"value6: {value6}, value7: {value7}, value8: {value8}, value9: {value9}, value10: {value10}, " f"value12: {value12}, sector: {sector}, value13: {value13}, value14: {value14}, value15: {value15}, modelo: {modelo}")
 
         geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
 
@@ -173,11 +177,10 @@ def calcular():
             return
 
         print(Pd)
-        coords = []
-        coords = [(lat, lon) for angulo, d, lat, lon in Pd]
+        coordenadas = [(lat, lon) for angulo, d, lat, lon in Pd]
 
         # Verifica que coords no esté vacío
-        if not coords:
+        if not coordenadas:
             print("No se generaron coordenadas válidas.")
             return
 
@@ -193,7 +196,7 @@ def calcular():
                 marker_2 = map_widget.set_marker(value1, value2, text="BTS") # Si no encuentra path de la imagen pone default
 
             polygon_color = "black" if sector == "Sector 1" else "blue" if sector == "Sector 2" else "red"
-            map_widget.set_polygon(coords, fill_color = polygon_color, outline_color=polygon_color, border_width=5)
+            map_widget.set_polygon(coordenadas, fill_color = polygon_color, outline_color=polygon_color, border_width=5)
 
 
 
@@ -223,7 +226,6 @@ def calcular():
 
            
          
-
         else:
                 
                 for item in Pd:
@@ -239,11 +241,33 @@ def calcular():
 
 
     except ValueError:
-        print("Error: Asegúrate de ingresar solo números en todos los campos.")
+        print(f'Error:{ValueError}')
+
+
 
 
 # Crear la GUI y ejecutar la aplicación
 window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var, desplegable2 = create_gui(calcular)
 
+def calcular_auto(coords):
+    print("Add marker:", coords)
+    Entry_id1.delete(0, ttk.END)
+    Entry_id2.delete(0, ttk.END)
+    Entry_id1.insert(0,coords[0])
+    Entry_id2.insert(0,coords[1])
+
+    sectores = {"Sector 1", "Sector 2", "Sector 3"}
+
+    for s in sectores:
+        try:
+            desplegable.set(s)
+            calcular()
+        except Exception:
+            print(Exception)
+    
+
+map_widget.add_right_click_menu_command(label="Add BTS",
+                                        command=calcular_auto,
+                                        pass_coords=True)
 
 window.mainloop()
