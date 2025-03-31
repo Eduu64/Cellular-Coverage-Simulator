@@ -3,6 +3,7 @@
 ## 🚀 Descripción
 Herramienta diseñada para estimar la cobertura de redes celulares y simular la radiación de estaciones base. Utiliza coordenadas geográficas y datos demográficos para ofrecer cálculos precisos sobre la distribución de la señal.
 
+🚧 Falta optimizar el código 👷
 ---
 
 ## 🛠️ Instrucciones de Uso
