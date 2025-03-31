@@ -21,6 +21,7 @@
 💡 **Nota:** Puedes automatizar el estudio de los tres sectores y la adición de coordenadas haciendo clic derecho en el mapa y luego clic izquierdo sobre **"Añadir BTS"**.  
 
 ⚠️ **Importante** <br/>
+
 Para poder usar las imágenes en el proyecto, debes cambiar el path dentro del código. Asegúrate de que las rutas de las imágenes en tu entorno de desarrollo sean correctas, de lo contrario, el programa no podrá cargarlas correctamente.
 
 ---
