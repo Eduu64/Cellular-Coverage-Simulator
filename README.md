@@ -41,10 +41,10 @@ pip install tkinter tkintermapview customtkinter math geopy pyproj shapely reque
 ### 🔹 Interfaz de Usuario
 ![image](https://github.com/user-attachments/assets/51880250-810c-467e-9a76-bfe5a670f0b1)
 
-### 🔹 Configuración de Parámetros
+### 🔹 Estimación de bases
 ![image](https://github.com/user-attachments/assets/5773b3d5-8129-484a-b3be-1d2bbf52165e)
 
-### 🔹 Cálculo de Cobertura
+### 🔹 Ventana emergente
 ![image](https://github.com/user-attachments/assets/e76aad59-0bcd-453d-adcb-76b964a97e1c)
 
 ### 🔹 Visualización de Resultados
