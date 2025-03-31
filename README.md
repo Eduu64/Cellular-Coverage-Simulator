@@ -8,7 +8,7 @@ Herramienta diseñada para estimar la cobertura de redes celulares y simular la 
 ## 🛠️ Instrucciones de Uso
 
 ### 📍 Estimación de Bases Necesarias
-1. **Rellenar los parámetros**, incluyendo las coordenadas y el modelo de estudio, para que el programa identifique la demografía de la localidad. *(Puedes copiar las coordenadas haciendo clic derecho en el mapa y luego clic izquierdo sobre ellas).*  
+1. **Rellenar los parámetros**, incluyendo las coordenadas y el modelo de estudio, para que el programa estime la demografía de la localidad. *(Puedes copiar las coordenadas haciendo clic derecho en el mapa y luego clic izquierdo sobre ellas).*  
 2. **Seleccionar la opción** "Cálculo de eNodes" en el desplegable.  
 3. **Hacer clic en** el botón **"Calcular"**.  
 4. **Añadir las ciudades** en el buscador y hacer clic en **"Buscar"**.  
