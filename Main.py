@@ -82,8 +82,6 @@ class SIM():
         return newLat, newLon
 
 
-
-
     def Calculard(self, value):
         Pd = []
 
@@ -109,12 +107,21 @@ class SIM():
                     else:
                         d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -69.55-26.16*math.log10(self.frec)+13.82*math.log10(self.Hb)+a)/(44.9-6.55*math.log10(self.Hb)))
                     
-                    newLat, newLon = self.calcular_coordenadas(d, angulo)
-                    Pd.append((angulo, d, newLat, newLon))
+
+                elif self.modelo == "COST231":
+
+                    if self.type_location == "city":
+                        d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -46.3-33.6*math.log10(self.frec)+13.82*math.log10(self.Hb)+a-3)/(44.9-6.55*math.log10(self.Hb)))
+
+                    else:
+                        d = 10**((self.PTX - self.Smax  + gananciatx + self.GRX - self.LTX -self.LRX - self.PerdidasAñadidas -self.Margen -46.3-33.6*math.log10(self.frec)+13.82*math.log10(self.Hb)+a)/(44.9-6.55*math.log10(self.Hb)))
 
                 else:
-
                     print("Error en el modelo escogido")
+                    break
+
+                newLat, newLon = self.calcular_coordenadas(d, angulo)
+                Pd.append((angulo, d, newLat, newLon))
 
         return Pd
     
@@ -203,7 +210,7 @@ def calcular():
             max_value = (max(Pd, key=lambda x: x[1]))
             d_bts = (max_value[1])*1.82
 
-            print(f'Maxima distancia: {d_bts}')
+            #print(f'Maxima distancia: {d_bts}')
 
             if sector == "Sector 1":
                 x = 90
@@ -223,9 +230,7 @@ def calcular():
 
             except Exception :
                 map_widget.set_marker(dr_bts_latitude, dr_bts_longitude, text = "")
-
-           
-         
+ 
         else:
                 
                 for item in Pd:

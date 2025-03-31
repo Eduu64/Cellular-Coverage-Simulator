@@ -26,7 +26,6 @@ class Area:
 a = Area()
 
 def create_gui(calcular_callback):
-    # Botón para buscar la ciudad
     
     def buscar_ciudad():
         overpass_url = 'https://overpass-api.de/api/interpreter'
@@ -49,7 +48,7 @@ def create_gui(calcular_callback):
         if response.status_code == 200:
 
             admin_level = data['elements'][0]['tags']['admin_level']
-            print(admin_level)
+            #print(admin_level)
 
             overpass_query = f'''
             [out:json][timeout:600];
@@ -63,7 +62,7 @@ def create_gui(calcular_callback):
             if response.status_code == 200:
                 data = response.json()
                 data_filtered  = [element for element in data['elements'] if element.get('tags', {}).get('name') == ciudad]
-                print(data_filtered )
+                #print(data_filtered)
                 coordinates = []
 
                 # Iterar sobre los elementos
@@ -224,7 +223,7 @@ def create_gui(calcular_callback):
     desplegable = ttk.Combobox(window, width=50, values=["Cálculo eNodes","Sector 1", "Sector 2", "Sector 3"])
     desplegable.place(x=10, y=700)
 
-    desplegable2 = ttk.Combobox(window, width=50, values=["Okumura Hata"])
+    desplegable2 = ttk.Combobox(window, width=50, values=["Okumura Hata","COST231"])
     desplegable2.place(x=10, y=740)
 
     Button_id22 = customtkinter.CTkButton(
@@ -271,10 +270,10 @@ def create_gui(calcular_callback):
     LabelTotalArea.place(x=10, y=820)
     LabelTotalAreaset.place(x=200, y=820)
 
-    Labelenodes = Label(window, text="eNodes necesarios:", font=("Arial", 14), bg="#FFFFFF")
+    Labelenodes = Label(window, text="Estimación eNodes necesarios:", font=("Arial", 14), bg="#FFFFFF")
     Labelenodesset = Label(window, text="0", font=("Arial", 14), bg="#FFFFFF")
     Labelenodes.place(x=10, y=860)
-    Labelenodesset.place(x=200, y=860)
+    Labelenodesset.place(x=300, y=860)
 
 
     return window, map_widget, Entry_id1, Entry_id2, Entry_id3, Entry_id13, Entry_id15, Entry_id16, Entry_id17, Entry_id21, Entry_id23, Entry_id24, Entry_id29, desplegable, Entry_id30, Entry_id31, radio_var, desplegable2
