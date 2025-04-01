@@ -17,7 +17,7 @@ Herramienta diseñada para estimar la cobertura de redes celulares y simular la 
 
 ### 📡 Simulación de Radiación de la Base
 1. **Rellenar los parámetros**, incluyendo las coordenadas y el modelo de estudio. *(Puedes copiar las coordenadas haciendo clic derecho en el mapa y luego clic izquierdo sobre ellas).*  
-2. **Seleccionar el sector** a analizar en el desplegable.  
+2. **Seleccionar el sector** a analizar en el primer desplegable.  
 3. **Hacer clic en** el botón **"Calcular"**.  
 
 💡 **Nota:** Puedes automatizar el estudio de los tres sectores y la adición de coordenadas haciendo clic derecho en el mapa y luego clic izquierdo sobre **"Añadir BTS"**.  
