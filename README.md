@@ -30,7 +30,7 @@ Para poder usar las imágenes en el proyecto, debes cambiar el path dentro del c
 
 ## 📦 Librerías Utilizadas
 ```bash
-pip install tkinter tkintermapview customtkinter geopy pyproj shapely requests
+pip install tkintermapview customtkinter geopy pyproj shapely requests
 ```
 - `tkinter`  
 - `tkintermapview`  
