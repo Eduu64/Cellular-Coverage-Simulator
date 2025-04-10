@@ -239,7 +239,7 @@ def calcular():
                         break
 
                 # Calculamos el área en metros cuadrados
-                area_km2 = ((9*math.sqrt(3))/(8))*(d_max**2) # Area celda trisectorial
+                area_km2 = (1.95)*(d_max**2) # Area celda trisectorial
 
                 print(f"Área de cobertura: {area_km2} km²")
                 a.setAreaeNode(area_km2)
