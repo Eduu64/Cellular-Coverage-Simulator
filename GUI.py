@@ -18,6 +18,27 @@ window.resizable(False, False)  # (ancho, alto)
 
 window.configure(bg="#FFFFFF")
 
+style = ttk.Style()
+style.theme_use('default')
+
+# Cambiar el fondo del Notebook
+style.configure('TNotebook', background='white', borderwidth=0)
+style.configure('TNotebook.Tab', background='white',focuscolor='none',  borderwidth=0, padding=[10, 5])
+
+# También cambiar el fondo de los frames dentro de cada pestaña
+style.configure('TFrame', background='white')
+
+style.configure('TCombobox',
+                fieldbackground='white',   # fondo del campo
+                background='white',        # fondo del menú desplegable
+                foreground='black',
+                arrowcolor='gray',
+                bordercolor='lightgray',
+                lightcolor='white',
+                darkcolor='white'
+                )
+
+
 # Crear un Notebook para las pestañas
 notebook = ttk.Notebook(window)
 notebook.pack(fill=BOTH, expand=True)
