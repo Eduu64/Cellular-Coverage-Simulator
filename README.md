@@ -3,6 +3,8 @@
 ## 🚀 Descripción
 Herramienta diseñada para estimar la cobertura de redes celulares y simular la radiación de estaciones base. Utiliza coordenadas geográficas y datos demográficos para ofrecer cálculos precisos sobre la distribución de la señal.
 
+---
+
 ## 🛠️ Instrucciones de Uso
 
 ### 📍 Estimación de Bases Necesarias
@@ -41,7 +43,7 @@ pip install tkintermapview customtkinter geopy pyproj shapely requests
 
 ## 🎥 Demostración
 ### 🔹 Interfaz de Usuario
-![image](https://github.com/user-attachments/assets/65615562-0c77-4885-af50-d2143d6f69fe)
+![image](https://github.com/user-attachments/assets/57cd469f-bbd0-466f-8b02-603af99ff739)
 
 ### 🔹 Estimación de bases
 ![image](https://github.com/user-attachments/assets/5773b3d5-8129-484a-b3be-1d2bbf52165e)
