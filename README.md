@@ -41,7 +41,7 @@ pip install tkintermapview customtkinter geopy pyproj shapely requests
 
 ## 🎥 Demostración
 ### 🔹 Interfaz de Usuario
-![image](https://github.com/user-attachments/assets/bde91f63-f723-440f-823e-da2bf990f55f)
+![image](https://github.com/user-attachments/assets/65615562-0c77-4885-af50-d2143d6f69fe)
 
 ### 🔹 Estimación de bases
 ![image](https://github.com/user-attachments/assets/5773b3d5-8129-484a-b3be-1d2bbf52165e)
