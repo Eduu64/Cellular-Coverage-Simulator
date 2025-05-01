@@ -1,6 +1,7 @@
 class Area:
     Area = 0
     AreaCobertura = 0
+    
     def getArea(self):
         return self.Area
     
