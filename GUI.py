@@ -25,7 +25,7 @@ window.configure(bg="#FFFFFF")
 
 style = ttk.Style()
 # Usar tema base 'default' para partir limpio
-style.theme_use('default')
+style.theme_use('alt')
 
 # ---------- Notebook ----------
 style.configure("TNotebook",
@@ -78,6 +78,8 @@ style.configure("TCombobox",
     foreground="#1F2937",
     background="#F9FAFB",
     fieldbackground="#F9FAFB",
+    selectbackground = "#F9FAFB",
+    selectforeground = "#1F2937",  
     borderwidth=1,
     relief="flat",
     padding=4,
