@@ -1,7 +1,7 @@
 # 📡 Cellular Coverage Simulator
 
 ## 🚀 Descripción
-Herramienta diseñada para estimar la cobertura de redes celulares y simular la radiación de estaciones base. Utiliza coordenadas geográficas y datos demográficos para ofrecer cálculos precisos sobre la distribución de la señal.
+Herramienta diseñada para estimar la cobertura de redes celulares (LTE) y simular la radiación de estaciones base. Utiliza coordenadas geográficas y datos demográficos para ofrecer cálculos precisos sobre la distribución de la señal.
 
 ---
 
@@ -53,6 +53,14 @@ pip install tkintermapview customtkinter geopy pyproj shapely requests
 
 ### 🔹 Visualización de Resultados
 ![image](https://github.com/user-attachments/assets/6b722a73-f168-42fd-a18e-c718bf03a9dc)
+
+### 🔹 Cálculo de Eficiencia Espectral a través de CQI (after release 12 3GPP)
+![image](https://github.com/user-attachments/assets/b19a2a26-35bf-43f4-ab50-e75e7cdd19b3)
+
+### 🔹 Cálculo Emplazamientos Voz y Datos
+![image](https://github.com/user-attachments/assets/1ff13590-cdce-4070-a32e-1841f469fe12)
+
+
 
 ---
 
