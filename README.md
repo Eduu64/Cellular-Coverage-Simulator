@@ -20,7 +20,7 @@ Herramienta diseñada para estimar la cobertura de redes celulares (LTE) y simul
 
 ### 🕡 Cálculo de Eficiencia Espectral
 1. **Elegir CQI**, incluyendo el porcentaje que aplica a cada nivel de calidad según los requerimientos que nos piden.*
-2. **Hacer clic en** el botón de **Añadir**.
+2. **Hacer clic en** el botón de **"Añadir"**.
 3. Automaticamente se enviará el valor al simulador de capacidad.
 
 ### 📦 Simulación de Capacidad de la Base
