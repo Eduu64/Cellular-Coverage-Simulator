@@ -75,8 +75,20 @@ def calcular():
             polygon_color = "black" if sector == "Sector 1" else "blue" if sector == "Sector 2" else "red"
             GUI.map_widget.set_polygon(coordenadas, fill_color=polygon_color, outline_color=polygon_color, border_width=5)
 
-            max_value = max(Pd, key=lambda x: x[1])
-            d_bts = max_value[1]*1.82
+            max_value_tupla = max(Pd, key=lambda x: x[1]) #distancia mas larga
+            #Extraer y ordenar las distancias únicas
+            distancias_unicas = sorted({x[1] for x in Pd}, reverse=True)        
+            #Obtener la segunda más alta (si existe)
+            if len(distancias_unicas) >= 2:
+                Segmax_value = distancias_unicas[1]
+                max_value = max_value_tupla[1]
+
+                #Buscar la tupla que tenga esa distancia
+                #segundo_valor = next(x for x in Pd if x[1] == max_value)
+            else:
+                Segmax_value = None  # Si no hay suficientes valores distintos    
+
+            d_bts = max_value + Segmax_value 
 
             x = 90 if sector == "Sector 1" else 210 if sector == "Sector 2" else 330
             dr_bts_latitude, dr_bts_longitude = sim.calcular_coordenadas(d_bts, x)

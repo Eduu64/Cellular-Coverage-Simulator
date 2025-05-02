@@ -85,7 +85,7 @@ class SIM:
         R = 6378.1  # Radio de la Tierra en kilómetros
         phi1 = math.radians(self.LAT)  # Convertir latitud a radianes
         lambda1 = math.radians(self.LON)  # Convertir longitud a radianes
-        ang = math.radians(angulo)  # Convertir ángulo a radianes
+        ang = math.radians((angulo))  # Convertir ángulo a radianes
 
         Dang = d / R  # Distancia angular
 
