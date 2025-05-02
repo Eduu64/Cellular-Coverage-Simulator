@@ -43,24 +43,27 @@ pip install tkintermapview customtkinter geopy pyproj shapely requests
 
 ## 🎥 Demostración
 ### 🔹 Interfaz de Usuario
-![image](https://github.com/user-attachments/assets/57cd469f-bbd0-466f-8b02-603af99ff739)
+![image](https://github.com/user-attachments/assets/1e556c10-53c1-46f1-8d96-0a991e9ba9a5)
 
 ### 🔹 Estimación de bases en Cobertura
-![image](https://github.com/user-attachments/assets/5773b3d5-8129-484a-b3be-1d2bbf52165e)
+![image](https://github.com/user-attachments/assets/affa2a6d-3fee-4b7e-be85-b18abe581454)
 
-### 🔹 Ventana emergente
-![image](https://github.com/user-attachments/assets/e76aad59-0bcd-453d-adcb-76b964a97e1c)
+## 🔹 Ventana emergente auxiliar
+![image](https://github.com/user-attachments/assets/2ba80318-d9f3-4ec7-864a-2ef85c0db97d)
 
 ### 🔹 Visualización de Resultados de Cobertura
-![image](https://github.com/user-attachments/assets/6b722a73-f168-42fd-a18e-c718bf03a9dc)
+![image](https://github.com/user-attachments/assets/ec0525af-1576-4fc2-8912-9a7560973083)
 
 ### 🔹 Cálculo de Eficiencia Espectral a través de CQI (After release 12 3GPP)
-![image](https://github.com/user-attachments/assets/b19a2a26-35bf-43f4-ab50-e75e7cdd19b3)
+![image](https://github.com/user-attachments/assets/5b4b5d11-de4b-4840-97fd-45af243319b4)
+
+## 🔹 Ventana emergente gestión de errores
+![image](https://github.com/user-attachments/assets/439c73c4-8846-422e-b08c-8aa277590e61)
+
+![image](https://github.com/user-attachments/assets/57e6bd71-7d81-4088-9ad4-1942ca367c47)
 
 ### 🔹 Cálculo Emplazamientos Voz y Datos
-![image](https://github.com/user-attachments/assets/1ff13590-cdce-4070-a32e-1841f469fe12)
-
-
+![image](https://github.com/user-attachments/assets/a062a77c-ba4c-4d4d-a95a-f8336b2790f5)
 
 ---
 
