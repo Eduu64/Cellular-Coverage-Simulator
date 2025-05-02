@@ -1,26 +1,26 @@
 from models import SIM
 from tkinter import *
-import GUI
+import GUI 
 from geopy.geocoders import Nominatim
 from AreaBTS import a
 
 def calcular():
     try:
         # Obtener valores de las entradas
-        value1 = float(GUI.Entry_id1.get())
-        value2 = float(GUI.Entry_id2.get())
-        value3 = float(GUI.Entry_id3.get())
-        value4 = float(GUI.Entry_id13.get())
-        value5 = float(GUI.Entry_id15.get())
-        value6 = float(GUI.Entry_id17.get())
-        value7 = float(GUI.Entry_id16.get())
-        value8 = float(GUI.Entry_id21.get())
-        value9 = float(GUI.Entry_id23.get())
-        value10 = float(GUI.Entry_id24.get())
-        value12 = float(GUI.Entry_id29.get())
+        value1 = float(GUI.entry_latitud.get())
+        value2 = float(GUI.entry_longitud.get())
+        value3 = float(GUI.entry_potenciatx.get())
+        value4 = float(GUI.entry_gananciatx.get())
+        value5 = float(GUI.entry_ltx.get())
+        value6 = float(GUI.entry_lrx.get())
+        value7 = float(GUI.entry_gananciarx.get())
+        value8 = float(GUI.entry_frecuencia.get())
+        value9 = float(GUI.entry_alturabase.get())
+        value10 = float(GUI.entry_alturamovil.get())
+        value12 = float(GUI.entry_cobertura.get())
         sector = GUI.desplegable.get()
-        value13 = float(GUI.Entry_id30.get())
-        value14 = float(GUI.Entry_id31.get())
+        value13 = float(GUI.entry_perdidasanadidas.get())
+        value14 = float(GUI.entry_margen.get())
         value15 = float(GUI.radio_var.get())
         modelo = GUI.desplegable2.get()
 
@@ -120,11 +120,11 @@ def calcular_auto(coords):
     """
     print("Add marker:", coords)
 
-    GUI.Entry_id1.delete(0, END)  # Limpiar el campo de latitud
-    GUI.Entry_id2.delete(0, END)  # Limpiar el campo de longitud
+    GUI.entry_latitud.delete(0, END)  # Limpiar el campo de latitud
+    GUI.entry_longitud.delete(0, END)  # Limpiar el campo de longitud
 
-    GUI.Entry_id1.insert(0, coords[0])  # Insertar latitud
-    GUI.Entry_id2.insert(0, coords[1])  # Insertar longitud
+    GUI.entry_latitud.insert(0, coords[0])  # Insertar latitud
+    GUI.entry_longitud.insert(0, coords[1])  # Insertar longitud
 
     sectores = ["Sector 1", "Sector 2", "Sector 3"]
 

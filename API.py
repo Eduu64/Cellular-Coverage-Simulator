@@ -104,9 +104,9 @@ def buscar_ciudad():
 
     print(f"Área del polígono: {area_km2:.2f} km²")
     print(f"Área del polígono: {a.getArea():.2f} km²")
-    GUI.LabelAreaset.config(text=round(area_km2,2))
-    GUI.LabelTotalAreaset.config(text=round(a.getArea(),2))
+    GUI.label_area_set.config(text=round(area_km2,2))
+    GUI.label_total_area_set.config(text=round(a.getArea(),2))
     eNodes = a.getArea()/ a.getAreaCobertura()
-    GUI.Labelenodesset.config(text=math.ceil(eNodes))
+    GUI.label_enodes_set.config(text=math.ceil(eNodes))
 
 

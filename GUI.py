@@ -17,15 +17,15 @@ window = Tk()
 
 window.title("Cellular Coverage Simulator")
 
-window.geometry("1000x900")
+window.geometry("1000x800")
 
-window.resizable(False, False)  # (ancho, alto)
+window.resizable(True, True)  # (ancho, alto)
 
 window.configure(bg="#FFFFFF")
 
 style = ttk.Style()
 # Usar tema base 'default' para partir limpio
-style.theme_use('alt')
+style.theme_use('default')
 
 # ---------- Notebook ----------
 style.configure("TNotebook",
@@ -96,7 +96,7 @@ style.map("TCombobox",
 style.configure("TScrollbar",
                      background="#F9FAFB",
                      troughcolor="#F9FAFB",
-                     sliderlength=20,
+                     sliderlength=40,
                      sliderrelief="flat",
                      bordercolor="#F9FAFB")
 
@@ -116,26 +116,35 @@ style.configure("TEntry",
 style.map("TEntry",
             fieldbackground=[("focus", "#FFFFFF"), ("!focus", "#FFFFFF")],
             bordercolor=[("focus", "#3B82F6"), ("!focus", "#D1D5DB")])
- # ---------- Treeview minimalista ----------
+ # ---------- Treeview ----------
+
 style.configure("Treeview",
                 background="#FFFFFF",
                 fieldbackground="#FFFFFF",
                 foreground="#2E2E2E",
                 bordercolor="#FFFFFF",
                 borderwidth=0,
-                relief="flat")
+                relief="flat",
+                highlightthickness=0,  
+                selectbackground="#DCE7FF",
+                selectforeground="#1A4280")
 
 style.configure("Treeview.Heading",
                 background="#F4F6FB",
                 foreground="#333333",
                 relief="flat",
                 borderwidth=0,
-                padding = 5,
-                font=("Segoe UI", 10))
+                padding=5,
+                font=("Segoe UI", 10),
+                highlightthickness=0)  
 
 style.map("Treeview",
-            background=[('selected', '#DCE7FF')],
-            foreground=[('selected', '#1A4280')])
+          background=[('selected', '#DCE7FF')],
+          foreground=[('selected', '#1A4280')])
+
+
+
+
 
 
 # Crear un Notebook para las pestañas
@@ -144,12 +153,12 @@ notebook.pack(fill=BOTH, expand=True)
 
 # Crear la primera pestaña
 tab1 = Frame(notebook)
-tab1.configure(bg="#FFFFFF")
+tab1.configure(background="#FFFFFF")
 notebook.add(tab1, text='Simulador de Cobertura')
 
 # Crear la segunda pestaña
 tab2 = Frame(notebook)
-tab2.configure(bg="#FFFFFF")
+tab2.configure(background="#FFFFFF")
 notebook.add(tab2, text='Simulador de Capacidad')
 
 # Crear un frame para contener el canvas y el mapa
@@ -163,6 +172,7 @@ main_frame2.pack(side=RIGHT,fill=BOTH, expand=True)
 
 # Crear un canvas dentro del frame principal
 canvas = Canvas(main_frame)
+canvas.configure(background="#FFFFFF",highlightbackground="#FFFFFF",highlightcolor="#FFFFFF")
 canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
 # Crear una scrollbar y vincularla al canvas
@@ -175,135 +185,219 @@ canvas.bind(
     '<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
 )
 
-
 # Crear un frame dentro del canvas
 frame = Frame(canvas)
-frame.config(width=500, height=1000)
 frame.configure(bg="#FFFFFF")
 canvas.create_window((0, 0), window=frame, anchor='nw')
 
 # Entradas para la interfaz gráfica
-Label_id4 = Label(frame, text="Coordenadas BTS", font=("Arial", 14), bg="#FFFFFF")
-Label_id4.place(x=100, y=10)
+frame_coordenadas = Frame(frame, bg="#FFFFFF")
+frame_coordenadas.pack(anchor='w', pady=10)
 
-Label_id5 = Label(frame, text="Latitud", font=("Arial", 14), bg="#FFFFFF")
-Label_id5.place(x=10, y=50)
-Entry_id1 = customtkinter.CTkEntry(master=frame, placeholder_text="Latitud")
-Entry_id1.place(x=150, y=50)  
+label_id4 = ttk.Label(frame_coordenadas, text="Coordenadas BTS", width=15, font=("Arial", 12), background="#FFFFFF")
+label_id4.pack(padx=100)
 
-Label_id6 = Label(frame, text="Longitud", font=("Arial", 14), bg="#FFFFFF")
-Label_id6.place(x=10, y=90)
-Entry_id2 = customtkinter.CTkEntry(master=frame, placeholder_text="Longitud")
-Entry_id2.place(x=150, y=90)  
+# Latitud
+frame_latitud = Frame(frame, bg="#FFFFFF")
+frame_latitud.pack(anchor='w', pady=5)
+label_id5 = ttk.Label(frame_latitud, text="Latitud", width=15, font=("Arial", 12), background="#FFFFFF")
+label_id5.pack(side='left')
+entry_latitud = customtkinter.CTkEntry(frame_latitud, placeholder_text="Latitud")
+entry_latitud.pack(side='left', fill='both', expand=True)
 
-Label_id4 = Label(frame, text="Parametros", font=("Arial", 14), bg="#FFFFFF")
-Label_id4.place(x=100, y=130)
+# Longitud
+frame_longitud = Frame(frame, bg="#FFFFFF")
+frame_longitud.pack(anchor='w', pady=5)
+label_id6 = ttk.Label(frame_longitud, text="Longitud", width=15, font=("Arial", 12), background="#FFFFFF")
+label_id6.pack(side='left')
+entry_longitud = customtkinter.CTkEntry(frame_longitud, placeholder_text="Longitud")
+entry_longitud.pack(side='left', fill='both', expand=True)
 
-Label_id8 = Label(frame, text="Ptx", font=("Arial", 14), bg="#FFFFFF")
-Label_id8.place(x=10, y=170)
-Entry_id3 = customtkinter.CTkEntry(master=frame, placeholder_text="Ptx")
-Entry_id3.place(x=150, y=170)  
+# Parámetros
+frame_parametros = Frame(frame, bg="#FFFFFF")
+frame_parametros.pack(anchor='w', pady=10)
+label_id4_param = ttk.Label(frame_parametros, text="Parametros", width=15, font=("Arial", 12), background="#FFFFFF")
+label_id4_param.pack(padx=100)
 
-Label_id12 = Label(frame, text="Gtx", font=("Arial", 14), bg="#FFFFFF")
-Label_id12.place(x=10, y=210)
-Entry_id13 = customtkinter.CTkEntry(master=frame, placeholder_text="Gtx")
-Entry_id13.place(x=150, y=210)  
+# Potencia Tx
+frame_ptx = Frame(frame, bg="#FFFFFF")
+frame_ptx.pack(anchor='w', pady=5)
+label_ptx = ttk.Label(frame_ptx, text="Potencia Tx", width=15, font=("Arial", 12), background="#FFFFFF")
+label_ptx.pack(side='left')
+entry_potenciatx = customtkinter.CTkEntry(frame_ptx, placeholder_text="Ptx")
+entry_potenciatx.pack(side='left', fill='x', expand=True)
+label_ptx2 = ttk.Label(frame_ptx, text="dBm", font=("Arial", 10), background="#FFFFFF")
+label_ptx2.pack(side='left', padx=10)
 
-Label_id14 = Label(frame, text="Ltx", font=("Arial", 14), bg="#FFFFFF")
-Label_id14.place(x=10, y=250)
-Entry_id15 = customtkinter.CTkEntry(master=frame, placeholder_text="Ltx")
-Entry_id15.place(x=150, y=250)  
+# Ganancia Tx
+frame_gtx = Frame(frame, bg="#FFFFFF")
+frame_gtx.pack(anchor='w', pady=5)
+label_gtx = ttk.Label(frame_gtx, text="Ganancia Tx", width=15, font=("Arial", 12), background="#FFFFFF")
+label_gtx.pack(side='left')
+entry_gananciatx = customtkinter.CTkEntry(frame_gtx, placeholder_text="Gtx")
+entry_gananciatx.pack(side='left', fill='x', expand=True)
+label_gtx2 = ttk.Label(frame_gtx, text="dBi", font=("Arial", 10), background="#FFFFFF")
+label_gtx2.pack(side='left', padx=10)
 
-Label_id18 = Label(frame, text="Grx", font=("Arial", 14), bg="#FFFFFF")
-Label_id18.place(x=10, y=290)
-Entry_id16 = customtkinter.CTkEntry(master=frame, placeholder_text="Grx")
-Entry_id16.place(x=150, y=290)  
+# Ltx
+frame_ltx = Frame(frame, bg="#FFFFFF")
+frame_ltx.pack(anchor='w', pady=5)
+label_ltx = ttk.Label(frame_ltx, text="Ltx", width=15, font=("Arial", 12), background="#FFFFFF")
+label_ltx.pack(side='left')
+entry_ltx = customtkinter.CTkEntry(frame_ltx, placeholder_text="Ltx")
+entry_ltx.pack(side='left', fill='x', expand=True)
+label_ltx2 = ttk.Label(frame_ltx, text="dB", font=("Arial", 10), background="#FFFFFF")
+label_ltx2.pack(side='left', padx=10)
+# Grx
+frame_grx = Frame(frame, bg="#FFFFFF")
+frame_grx.pack(anchor='w', pady=5)
+label_grx = ttk.Label(frame_grx, text="Grx", width=15, font=("Arial", 12), background="#FFFFFF")
+label_grx.pack(side='left')
+entry_gananciarx = customtkinter.CTkEntry(frame_grx, placeholder_text="Grx")
+entry_gananciarx.pack(side='left', fill='x', expand=True)
+label_grx2 = ttk.Label(frame_grx, text="dBi", font=("Arial", 10), background="#FFFFFF")
+label_grx2.pack(side='left', padx=10)
 
-Label_id19 = Label(frame, text="Lrx", font=("Arial", 14), bg="#FFFFFF")
-Label_id19.place(x=10, y=330)
-Entry_id17 = customtkinter.CTkEntry(master=frame, placeholder_text="Lrx")
-Entry_id17.place(x=150, y=330)  
+# Lrx
+frame_lrx = Frame(frame, bg="#FFFFFF")
+frame_lrx.pack(anchor='w', pady=5)
+label_lrx = ttk.Label(frame_lrx, text="Lrx", width=15, font=("Arial", 12), background="#FFFFFF")
+label_lrx.pack(side='left')
+entry_lrx = customtkinter.CTkEntry(frame_lrx, placeholder_text="Lrx")
+entry_lrx.pack(side='left', fill='x', expand=True)
+label_lrx2 = ttk.Label(frame_lrx, text="dB", font=("Arial", 10), background="#FFFFFF")
+label_lrx2.pack(side='left', padx=10)
 
-Label_id20 = Label(frame, text="Frecuencia", font=("Arial", 14), bg="#FFFFFF")
-Label_id20.place(x=10, y=370)
-Entry_id21 = customtkinter.CTkEntry(master=frame, placeholder_text="Frecuencia")
-Entry_id21.place(x=150, y=370)  
+# Frecuencia
+frame_frecuencia = Frame(frame, bg="#FFFFFF")
+frame_frecuencia.pack(anchor='w', pady=5)
+label_frecuencia = ttk.Label(frame_frecuencia, text="Frecuencia", width=15, font=("Arial", 12), background="#FFFFFF")
+label_frecuencia.pack(side='left')
+entry_frecuencia = customtkinter.CTkEntry(frame_frecuencia, placeholder_text="Frecuencia")
+entry_frecuencia.pack(side='left', fill='x', expand=True)
+label_frecuencia2 = ttk.Label(frame_frecuencia, text="MHz", font=("Arial", 10), background="#FFFFFF")
+label_frecuencia2.pack(side='left', padx=10)
 
-Label_id25 = Label(frame, text="Hb", font=("Arial", 14), bg="#FFFFFF")
-Label_id25.place(x=10, y=410)
-Entry_id23 = customtkinter.CTkEntry(master=frame, placeholder_text="Hb")
-Entry_id23.place(x=150, y=410)  
+# Hb
+frame_hb = Frame(frame, bg="#FFFFFF")
+frame_hb.pack(anchor='w', pady=5)
+label_hb = ttk.Label(frame_hb, text="Altura base", width=15, font=("Arial", 12), background="#FFFFFF")
+label_hb.pack(side='left')
+entry_alturabase = customtkinter.CTkEntry(frame_hb, placeholder_text="Hb")
+entry_alturabase.pack(side='left', fill='x', expand=True)
+label_hb2 = ttk.Label(frame_hb, text="m", font=("Arial", 10), background="#FFFFFF")
+label_hb2.pack(side='left', padx=10)
 
-Label_id26 = Label(frame, text="Hm", font=("Arial", 14), bg="#FFFFFF")
-Label_id26.place(x=10, y=450)
-Entry_id24 = customtkinter.CTkEntry(master=frame, placeholder_text="Hm")
-Entry_id24.place(x=150, y=450)  
+# Hm
+frame_hm = Frame(frame, bg="#FFFFFF")
+frame_hm.pack(anchor='w', pady=5)
+label_hm = ttk.Label(frame_hm, text="Altura Móvil", width=15, font=("Arial", 12), background="#FFFFFF")
+label_hm.pack(side='left')
+entry_alturamovil = customtkinter.CTkEntry(frame_hm, placeholder_text="Hm")
+entry_alturamovil.pack(side='left', fill='x', expand=True)
+label_hm2 = ttk.Label(frame_hm, text="m", font=("Arial", 10), background="#FFFFFF")
+label_hm2.pack(side='left', padx=10)
 
-Label_id30 = Label(frame, text="Cobertura", font=("Arial", 14), bg="#FFFFFF")
-Label_id30.place(x=10, y=490)
-Entry_id29 = customtkinter.CTkEntry(master=frame, placeholder_text="Cobertura")
-Entry_id29.place(x=150, y=490)  
+# RSRP
+frame_cobertura = Frame(frame, bg="#FFFFFF")
+frame_cobertura.pack(anchor='w', pady=5)
+label_cobertura = ttk.Label(frame_cobertura, text="RSRP", width=15, font=("Arial", 12), background="#FFFFFF")
+label_cobertura.pack(side='left')
+entry_cobertura = customtkinter.CTkEntry(frame_cobertura, placeholder_text="Cobertura")
+entry_cobertura.pack(side='left', fill='x', expand=True)
+label_cobertura2 = ttk.Label(frame_cobertura, text="dBm", font=("Arial", 10), background="#FFFFFF")
+label_cobertura2.pack(side='left', padx=10)
 
-Label_id31 = Label(frame, text="Per. Añadidas", font=("Arial", 14), bg="#FFFFFF")
-Label_id31.place(x=10, y=530)
-Entry_id30 = customtkinter.CTkEntry(master=frame, placeholder_text="Per. Añadidas")
-Entry_id30.place(x=150, y=530)  
+# Per. Añadidas
+frame_per_anadidas = Frame(frame, bg="#FFFFFF") #sin ñ por si da problemas
+frame_per_anadidas.pack(anchor='w', pady=5)
+label_PA = ttk.Label(frame_per_anadidas, text="Per. Añadidas", width=15, font=("Arial", 12), background="#FFFFFF")
+label_PA.pack(side='left')
+entry_perdidasanadidas = customtkinter.CTkEntry(frame_per_anadidas, placeholder_text="Per. Añadidas")
+entry_perdidasanadidas.pack(side='left', fill='x', expand=True)
+label_PA2 = ttk.Label(frame_per_anadidas, text="dB", font=("Arial", 10), background="#FFFFFF")
+label_PA2.pack(side='left', padx=10)
 
-Label_id32 = Label(frame, text="Margen", font=("Arial", 14), bg="#FFFFFF")
-Label_id32.place(x=10, y=570)
-Entry_id31 = customtkinter.CTkEntry(master=frame, placeholder_text="Margen")
-Entry_id31.place(x=150, y=570)  
+# Margen
+frame_margen = Frame(frame, bg="#FFFFFF")
+frame_margen.pack(anchor='w', pady=5)
+label_m = ttk.Label(frame_margen, text="Margen (SF/FF)", width=15, font=("Arial", 12), background="#FFFFFF")
+label_m.pack(side='left')
+entry_margen = customtkinter.CTkEntry(frame_margen, placeholder_text="Margen")
+entry_margen.pack(side='left', fill='x', expand=True)
+label_m2 = ttk.Label(frame_margen, text="dB", font=("Arial", 10), background="#FFFFFF")
+label_m2.pack(side='left', padx=10)
 
-radio_var = IntVar()
-RadioButton_id9 = customtkinter.CTkRadioButton(
-    master=frame,
+# Radio Buttons DOWNLINK / UPLINK
+frame_radio = Frame(frame, bg="#FFFFFF")
+frame_radio.pack(anchor='w', pady=10)
+radio_var = customtkinter.IntVar()
+
+radio_bt_downlink = customtkinter.CTkRadioButton(
+    master=frame_radio,
     variable=radio_var,
     value=1,
     text="DOWNLINK",
-    text_color="#000000",
-    border_color="#000000",
-    fg_color="#808080",
-    hover_color="#2F2F2F",
+    radiobutton_height=18,
+    radiobutton_width=18,
+    border_width_checked=5,
+    border_color="#888",
+    fg_color="red",
+    hover_color="#ff4d4d",
+    text_color="#222"
 )
-RadioButton_id9.place(x=10, y=620)
+radio_bt_downlink.pack(side='left', padx=10)
 
-RadioButton_id10 = customtkinter.CTkRadioButton(
-    master=frame,
+radio_bt_uplink = customtkinter.CTkRadioButton(
+    master=frame_radio,
     variable=radio_var,
     value=2,
     text="UPLINK",
-    text_color="#000000",
-    border_color="#000000",
-    fg_color="#808080",
-    hover_color="#2F2F2F",
+    radiobutton_height=18,
+    radiobutton_width=18,
+    border_width_checked=5,
+    border_color="#888",
+    fg_color="red",
+    hover_color="#ff4d4d",
+    text_color="#222"
 )
-RadioButton_id10.place(x=10, y=660)  
+radio_bt_uplink.pack(side='left', padx=10)
 
-desplegable = ttk.Combobox(frame, width=50, values=["Cálculo eNodes","Sector 1", "Sector 2", "Sector 3"])
-desplegable.place(x=10, y=700)
+# Desplegable 1: selección cálculo
+frame_desplegable1 = Frame(frame, bg="#FFFFFF")
+frame_desplegable1.pack(anchor='w', pady=5)
+desplegable = ttk.Combobox(frame_desplegable1, width=50, values=["Cálculo eNodes", "Sector 1", "Sector 2", "Sector 3"])
+desplegable.pack(fill='x', expand=True)
 
-desplegable2 = ttk.Combobox(frame, width=50, values=["Okumura Hata","COST231"])
-desplegable2.place(x=10, y=740)
+# Desplegable 2: selección modelo
+frame_desplegable2 = Frame(frame, bg="#FFFFFF")
+frame_desplegable2.pack(anchor='w', pady=5)
+desplegable2 = ttk.Combobox(frame_desplegable2, width=50, values=["Okumura Hata", "COST231"])
+desplegable2.pack(fill='x', expand=True)
 
-Button_id22 = customtkinter.CTkButton(
-    master=frame,
-    fg_color="#ec3642", #color of the button
-    hover_color="RED", #color of the button when mouse is over
-    font=("Montserrat", 16), #font used
-    corner_radius=12, width=100, #radius of edges and total width
+# Botón Calcular
+frame_boton = Frame(frame, bg="#FFFFFF")
+frame_boton.pack(anchor='w', pady=15)
+button_id22 = customtkinter.CTkButton(
+    master=frame_boton,
+    fg_color="#ec3642",  # color del botón
+    hover_color="RED",  # color cuando el cursor está encima
+    font=("Montserrat", 16),
+    corner_radius=12,
+    width=100,
     text="Calcular",
     command=calcular
 )
-Button_id22.place(x=170, y=640)
+button_id22.pack(padx=100)
 
 # Configuración del mapa
 mapaFrame = Frame(main_frame2)
-mapaFrame.pack(side=RIGHT)
+mapaFrame.pack(side=RIGHT,fill=BOTH, expand=True)
 
 map_widget = tkintermapview.TkinterMapView(mapaFrame, width=650, height=1000, corner_radius=0)
 map_widget.set_position(40.41, -3.7)
 map_widget.set_zoom(12)
-map_widget.pack()
+map_widget.pack(fill=BOTH, expand=True)
 
 Button_buscar = customtkinter.CTkButton(
 master=main_frame2,
@@ -319,20 +413,35 @@ Button_buscar.place(x=435, y=10)  # Ajustar la posición según sea necesario
 Entry_city = customtkinter.CTkEntry(master=main_frame2, placeholder_text="Nombre de la ciudad",width=350)
 Entry_city.place(x=75, y=10)  # Ajustar la posición según sea necesario
 
-LabelArea = Label(frame, text="Area Territorio:", font=("Arial", 14), bg="#FFFFFF")
-LabelAreaset = Label(frame, text="0", font=("Arial", 14), bg="#FFFFFF")
-LabelArea.place(x=10, y=780)
-LabelAreaset.place(x=150, y=780)
+# Area Territorio
+frame_area = Frame(frame, bg="#FFFFFF")
+frame_area.pack(anchor='w', pady=5)
 
-LabelTotalArea = Label(frame, text="Area Total Territorio:", font=("Arial", 14), bg="#FFFFFF")
-LabelTotalAreaset = Label(frame, text="0", font=("Arial", 14), bg="#FFFFFF")
-LabelTotalArea.place(x=10, y=820)
-LabelTotalAreaset.place(x=200, y=820)
+label_area = ttk.Label(frame_area, text="Area Territorio:", font=("Arial", 12), background="#FFFFFF")
+label_area.pack(side='left')
 
-Labelenodes = Label(frame, text="Estimación eNodes necesarios:", font=("Arial", 14), bg="#FFFFFF")
-Labelenodesset = Label(frame, text="0", font=("Arial", 14), bg="#FFFFFF")
-Labelenodes.place(x=10, y=860)
-Labelenodesset.place(x=300, y=860)
+label_area_set = Label(frame_area, text="0", font=("Arial", 12), background="#FFFFFF")
+label_area_set.pack(side='left', padx=(10,0))
+
+# Area Total Territorio
+frame_area_total = Frame(frame, bg="#FFFFFF")
+frame_area_total.pack(anchor='w', pady=5)
+label_total_area = ttk.Label(frame_area_total, text="Area Total Territorio:", font=("Arial", 12), background="#FFFFFF")
+label_total_area.pack(side='left')
+label_total_area_set = Label(frame_area_total, text="0", font=("Arial", 12), background="#FFFFFF")
+label_total_area_set.pack(side='left', padx=(10,0))
+
+# Estimación eNodes necesarios
+frame_enodes = Frame(frame, bg="#FFFFFF")
+frame_enodes.pack(anchor='w', pady=5)
+label_enodes = ttk.Label(frame_enodes, text="Estimación eNodes necesarios:", font=("Arial", 12), background="#FFFFFF")
+label_enodes.pack(side='left')
+label_enodes_set = ttk.Label(frame_enodes, text="0", font=("Arial", 12), background="#FFFFFF")
+label_enodes_set.pack(side='left', padx=(10,0))
+
+
+frame_AUX = Frame(frame, bg="#FFFFFF")
+frame_AUX.pack(anchor='w', pady=20)
 
 map_widget.add_right_click_menu_command(label="Add BTS",
                                         command=calcular_auto,
@@ -406,7 +515,7 @@ history_table.pack(pady=10)
 # ---------- Eficiencia Espectral ----------
 
 bottom_frame = Frame(main_frame3)
-bottom_frame.configure(bg="#FFFFFF")
+bottom_frame.configure(background="#FFFFFF")
 bottom_frame.pack(pady=10)
 
 label5 = Label(bottom_frame, text="Eficiencia Espectral:", bg="#FFFFFF").grid(row=0, column=0)
@@ -426,34 +535,42 @@ command=ef.reset_all).grid(row=0, column=2, padx=20)
 # Btotal_MHz
 frame_btotal = Frame(main_frame4, bg="#FFFFFF")
 frame_btotal.pack(anchor='w', pady=10)
-label_btotal = ttk.Label(frame_btotal, text="Btotal_MHz: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_btotal = ttk.Label(frame_btotal, text="Bandwith Total: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_btotal.pack(side='left')
 entry_Btotal_MHz = customtkinter.CTkEntry(frame_btotal)
 entry_Btotal_MHz.pack(side='left', fill='x', expand=True)
+label_btotal2 = ttk.Label(frame_btotal, text="MHz", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_btotal2.pack(side='left')
 
 # Bv_MHz
 frame_bv = Frame(main_frame4, bg="#FFFFFF")
 frame_bv.pack(anchor='w', pady=10)
-label_bv = ttk.Label(frame_bv, text="Bv_MHz: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_bv = ttk.Label(frame_bv, text="Bandwith Voz: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_bv.pack(side='left')
 entry_Bv_MHz = customtkinter.CTkEntry(frame_bv)
 entry_Bv_MHz.pack(side='left', fill='x', expand=True)
+label_bv2 = ttk.Label(frame_bv, text="MHz", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_bv2.pack(side='left')
 
 # Ef
 frame_ef = Frame(main_frame4, bg="#FFFFFF")
 frame_ef.pack(anchor='w', pady=10)
-label_ef = ttk.Label(frame_ef, text="Ef: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_ef = ttk.Label(frame_ef, text="Eficiencia Espectral: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_ef.pack(side='left')
 entry_Ef = customtkinter.CTkEntry(frame_ef)
 entry_Ef.pack(side='left', fill='x', expand=True)
+label_ef2 = ttk.Label(frame_ef, text="bps/Hz", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_ef2.pack(side='left')
 
 # Pb
 frame_pb = Frame(main_frame4, bg="#FFFFFF")
 frame_pb.pack(anchor='w', pady=10)
-label_pb = ttk.Label(frame_pb, text="Pb: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_pb = ttk.Label(frame_pb, text="Probabilidad de Bloqueo: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_pb.pack(side='left')
 entry_Pb = customtkinter.CTkEntry(frame_pb)
 entry_Pb.pack(side='left', fill='x', expand=True)
+label_pb2 = ttk.Label(frame_pb, text="%", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_pb2.pack(side='left')
 
 # RbCODEC_bps
 frame_rbcodec = Frame(main_frame4, bg="#FFFFFF")
@@ -462,43 +579,52 @@ label_rbcodec = ttk.Label(frame_rbcodec, text="RbCODEC: ", width=30, anchor='w',
 label_rbcodec.pack(side='left')
 entry_RbCODEC_bps = customtkinter.CTkEntry(frame_rbcodec)
 entry_RbCODEC_bps.pack(side='left', fill='x', expand=True)
+label_rbcodec2 = ttk.Label(frame_rbcodec, text="Kbps", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_rbcodec2.pack(side='left')
 
 # trafico_usuario_mErlang
 frame_trafico_me = Frame(main_frame4, bg="#FFFFFF")
 frame_trafico_me.pack(anchor='w', pady=10)
-label_trafico_me = ttk.Label(frame_trafico_me, text="trafico_usuario_mErlang: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_trafico_me = ttk.Label(frame_trafico_me, text="Tráfico usuario móvil: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_trafico_me.pack(side='left')
 entry_trafico_usuario_mErlang = customtkinter.CTkEntry(frame_trafico_me)
 entry_trafico_usuario_mErlang.pack(side='left', fill='x', expand=True)
+label_trafico_me2 = ttk.Label(frame_trafico_me, text="mErlangs", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_trafico_me2.pack(side='left')
 
 # Trafico_usuario_GB_mes
 frame_trafico_gb = Frame(main_frame4, bg="#FFFFFF")
 frame_trafico_gb.pack(anchor='w', pady=10)
-label_trafico_gb = ttk.Label(frame_trafico_gb, text="Trafico_usuario_GB_mes: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_trafico_gb = ttk.Label(frame_trafico_gb, text="Tráfico usuario mensual: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_trafico_gb.pack(side='left')
 entry_Trafico_usuario_GB_mes = customtkinter.CTkEntry(frame_trafico_gb)
 entry_Trafico_usuario_GB_mes.pack(side='left', fill='x', expand=True)
-
+label_trafico_gb2 = ttk.Label(frame_trafico_gb, text="GB/mes", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_trafico_gb2.pack(side='left')
 # porcentaje_BH
 frame_porcentaje = Frame(main_frame4, bg="#FFFFFF")
 frame_porcentaje.pack(anchor='w', pady=10)
-label_porcentaje = ttk.Label(frame_porcentaje, text="porcentaje_BH: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_porcentaje = ttk.Label(frame_porcentaje, text="Porcentaje de Tráfico en BH: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_porcentaje.pack(side='left')
 entry_porcentaje_BH = customtkinter.CTkEntry(frame_porcentaje)
 entry_porcentaje_BH.pack(side='left', fill='x', expand=True)
+label_porcentaje2 = ttk.Label(frame_porcentaje, text="%", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_porcentaje2.pack(side='left')
 
 # load_sector
 frame_load = Frame(main_frame4, bg="#FFFFFF")
 frame_load.pack(anchor='w', pady=10)
-label_load = ttk.Label(frame_load, text="load_sector: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_load = ttk.Label(frame_load, text="Carga del sector: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_load.pack(side='left')
 entry_load_sector = customtkinter.CTkEntry(frame_load)
 entry_load_sector.pack(side='left', fill='x', expand=True)
+label_load2 = ttk.Label(frame_load, text="%", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_load2.pack(side='left')
 
 # poblacion_cliente
 frame_poblacion = Frame(main_frame4, bg="#FFFFFF")
 frame_poblacion.pack(anchor='w', pady=10)
-label_poblacion = ttk.Label(frame_poblacion, text="poblacion_cliente: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_poblacion = ttk.Label(frame_poblacion, text="Población cliente: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_poblacion.pack(side='left')
 entry_poblacion_cliente = customtkinter.CTkEntry(frame_poblacion)
 entry_poblacion_cliente.pack(side='left', fill='x', expand=True)
