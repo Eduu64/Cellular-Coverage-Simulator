@@ -45,16 +45,16 @@ pip install tkintermapview customtkinter geopy pyproj shapely requests
 ### 🔹 Interfaz de Usuario
 ![image](https://github.com/user-attachments/assets/57cd469f-bbd0-466f-8b02-603af99ff739)
 
-### 🔹 Estimación de bases
+### 🔹 Estimación de bases en Cobertura
 ![image](https://github.com/user-attachments/assets/5773b3d5-8129-484a-b3be-1d2bbf52165e)
 
 ### 🔹 Ventana emergente
 ![image](https://github.com/user-attachments/assets/e76aad59-0bcd-453d-adcb-76b964a97e1c)
 
-### 🔹 Visualización de Resultados
+### 🔹 Visualización de Resultados de Cobertura
 ![image](https://github.com/user-attachments/assets/6b722a73-f168-42fd-a18e-c718bf03a9dc)
 
-### 🔹 Cálculo de Eficiencia Espectral a través de CQI (after release 12 3GPP)
+### 🔹 Cálculo de Eficiencia Espectral a través de CQI (After release 12 3GPP)
 ![image](https://github.com/user-attachments/assets/b19a2a26-35bf-43f4-ab50-e75e7cdd19b3)
 
 ### 🔹 Cálculo Emplazamientos Voz y Datos
