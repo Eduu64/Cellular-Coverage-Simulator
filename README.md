@@ -16,7 +16,16 @@ Herramienta diseñada para estimar la cobertura de redes celulares (LTE) y simul
 ### 📡 Simulación de Radiación de la Base
 1. **Rellenar los parámetros**, incluyendo las coordenadas y el modelo de estudio. *(Puedes copiar las coordenadas haciendo clic derecho en el mapa y luego clic izquierdo sobre ellas).*  
 2. **Seleccionar el sector** a analizar en el primer desplegable.  
-3. **Hacer clic en** el botón **"Calcular"**.  
+3. **Hacer clic en** el botón **"Calcular"**.
+
+### 🕡 Cálculo de Eficiencia Espectral
+1. **Elegir CQI**, incluyendo el porcentaje que aplica a cada nivel de calidad según los requerimientos que nos piden.*
+2. **Hacer clic en** el botón de **Añadir**.
+3. Automaticamente se enviará el valor al simulador de capacidad.
+
+### 📦 Simulación de Capacidad de la Base
+1. **Rellenar los parámetros**, incluyendo la eficiencia espectral si anteriormente no se ha calculado*  
+3. **Hacer clic en** el botón **"Calcular"**.
 
 💡 **Nota:** Puedes automatizar el estudio de los tres sectores y la adición de coordenadas haciendo clic derecho en el mapa y luego clic izquierdo sobre **"Añadir BTS"**.  
 
