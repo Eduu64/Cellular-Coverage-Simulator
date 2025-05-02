@@ -48,7 +48,7 @@ pip install tkintermapview customtkinter geopy pyproj shapely requests
 ### 🔹 Estimación de bases en Cobertura
 ![image](https://github.com/user-attachments/assets/affa2a6d-3fee-4b7e-be85-b18abe581454)
 
-## 🔹 Ventana emergente auxiliar
+### 🔹 Ventana emergente auxiliar
 ![image](https://github.com/user-attachments/assets/2ba80318-d9f3-4ec7-864a-2ef85c0db97d)
 
 ### 🔹 Visualización de Resultados de Cobertura
