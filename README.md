@@ -1,7 +1,7 @@
 # 📡 Cellular Coverage Simulator
 
 ## 🚀 Descripción
-Herramienta diseñada para estimar la cobertura de redes celulares (LTE) y simular la radiación de estaciones base. Utiliza coordenadas geográficas y datos demográficos para ofrecer cálculos precisos sobre la distribución de la señal.
+Herramienta diseñada para estimar la cobertura/capacidad de redes móviles (LTE) y simular la radiación de estaciones base. Utiliza coordenadas geográficas y datos demográficos para ofrecer cálculos precisos sobre la distribución de la señal.
 
 ---
 
