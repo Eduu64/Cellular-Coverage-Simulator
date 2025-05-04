@@ -72,8 +72,8 @@ def calcular():
 
                 GUI.map_widget.set_marker(value1, value2, text="BTS") # Si no encuentra path de la imagen pone default
             
-            polygon_color = "black" if sector == "Sector 1" else "blue" if sector == "Sector 2" else "red"
-            GUI.map_widget.set_polygon(coordenadas, fill_color=polygon_color, outline_color=polygon_color, border_width=5)
+            polygon_color = "black" if sector == "Sector 1" else "black" if sector == "Sector 2" else "black"
+            GUI.map_widget.set_polygon(coordenadas, fill_color=polygon_color, outline_color=polygon_color, border_width=4)
 
             max_value_tupla = max(Pd, key=lambda x: x[1]) #distancia mas larga
             #Extraer y ordenar las distancias únicas
