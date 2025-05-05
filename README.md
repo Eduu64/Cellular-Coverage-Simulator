@@ -1,4 +1,4 @@
-# 📡 **Simulador de Cobertura Celular** / **Cellular Coverage Simulator**
+# 📡 **Simulador de Estaciones Móviles** / **Cellular Stations Simulator**
 
 ## 🚀 Descripción / Description  
 **ES:**  
