@@ -1,5 +1,7 @@
 # 📡 **Simulador de Estaciones Móviles** / **Cellular Stations Simulator**
 
+⚠️ Todavía en desarrollo / still under development
+
 ## 🚀 Descripción / Description  
 **ES:**  
 Herramienta diseñada para estimar la **cobertura y capacidad de redes móviles (LTE)** y simular los **patrones de radiación de estaciones base**. Utiliza **coordenadas geográficas** y **datos demográficos** para ofrecer cálculos precisos sobre la distribución de la señal.  
