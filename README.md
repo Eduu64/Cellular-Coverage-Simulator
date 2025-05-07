@@ -31,13 +31,13 @@ A tool designed to estimate **mobile network (LTE) coverage and capacity**, and 
 1. Ingresar parámetros, incluyendo coordenadas y modelo.  *(Clic derecho en el mapa → clic izquierdo para copiar coordenadas).*
 2. Clic en **"Calcular"**.  
 
-💡 Puedes automatizar los 3 sectores con clic derecho → **"Añadir BTS"**.
+💡 Puedes automatizar la posición ubicación de estación con clic derecho → **"Añadir BTS"**.
 
 **EN:**  
 1. Enter parameters, including coordinates and model.  *(Right-click on the map → left-click to copy coordinates).*  
 2. Click **"Calculate"**.  
 
-💡 You can automate all 3 sectors with right-click → **"Add BTS"**.
+💡 You can automate the station placement by right-clicking → **"Add BTS"**.
 
 ---
 
