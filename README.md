@@ -15,31 +15,27 @@ A tool designed to estimate **mobile network (LTE) coverage and capacity**, and 
 
 ### 📍 Estimación de Bases Necesarias / Estimate Required Base Stations  
 **ES:**  
-1. Rellenar los parámetros y elegir modelo de estudio y coordenadas. *(Clic derecho en el mapa → clic izquierdo para copiar coordenadas).*  
-2. Seleccionar "Cálculo de eNodes".  
+1. Añadir ciudades desde el buscador y hacer clic en **"Añadir"**.  
+2. Rellenar los parámetros y elegir modelo de estudio.   
 3. Hacer clic en **"Calcular"**.  
-4. Añadir ciudades desde el buscador y hacer clic en **"Buscar"**.  
 
 **EN:**  
-1. Fill in parameters and select model and coordinates. *(Right-click on the map → left-click to copy coordinates).*  
-2. Select "eNode Calculation".  
+1. Add cities from the search bar and click **"Add"**.
+2. Fill in parameters and select model and coordinates. 
 3. Click **"Calculate"**.  
-4. Add cities from the search bar and click **"Search"**.
 
 ---
 
 ### 📡 Simulación de Radiación / Radiation Simulation  
 **ES:**  
-1. Ingresar parámetros, incluyendo coordenadas y modelo.  
-2. Seleccionar el sector en el primer desplegable.  
-3. Clic en **"Calcular"**.  
+1. Ingresar parámetros, incluyendo coordenadas y modelo.  *(Clic derecho en el mapa → clic izquierdo para copiar coordenadas).*
+2. Clic en **"Calcular"**.  
 
 💡 Puedes automatizar los 3 sectores con clic derecho → **"Añadir BTS"**.
 
 **EN:**  
-1. Enter parameters, including coordinates and model.  
-2. Select the sector from the dropdown menu.  
-3. Click **"Calculate"**.  
+1. Enter parameters, including coordinates and model.  *(Right-click on the map → left-click to copy coordinates).*  
+2. Click **"Calculate"**.  
 
 💡 You can automate all 3 sectors with right-click → **"Add BTS"**.
 
