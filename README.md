@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/c51beab2-a94b-470d-9c4d-575b04f81f85)# 📡 **Simulador de Estaciones Móviles** / **Cellular Stations Simulator**
+# 📡 **Simulador de Estaciones Móviles** / **Cellular Stations Simulator**
 
 ⚠️ Todavía en desarrollo / still under development
 
