@@ -88,37 +88,48 @@ class Eficiencia:
 
 class Capacidad:
 
-    def erlang_b(self,A, N):
-
+    def erlang_b(self, A, N):
         numerator = (A ** N) / math.factorial(N)
         denominator = sum((A ** k) / math.factorial(k) for k in range(N + 1))
         return numerator / denominator
-
-    def erlangs(self,N, Pb, epsilon=1e-4, max_A=1000):
+    
+    def erlangs(self, N, Pb, epsilon=1e-4, max_A=2000, debug=False):
         A = 0.0
         while A < max_A:
             Pb1 = self.erlang_b(A, N)
+            if debug:
+                print(f"Trying A={A:.4f}, Pb1={Pb1:.6f}")
             if abs(Pb1 - Pb) < epsilon:
                 return A
-            A += 0.1
+            A += 0.01
+        if debug:
+            print("No suitable A found within max_A")
         return None  
-
-    def calcular_capacidad_voz(self,Bv_MHz, Ef, RbCODEC_bps, trafico_usuario_mErlang, poblacion_cliente, Pb):
+    
+    def calcular_capacidad_voz(self, Bv_MHz, Ef, RbCODEC_bps, trafico_usuario_mErlang, poblacion_cliente, Pb):
         Bv_Hz = Bv_MHz * 1e6
-        N_canales_voz = (Bv_Hz * Ef) / (RbCODEC_bps*1e3)
+        N_canales_voz = (Bv_Hz * Ef) / (RbCODEC_bps * 1e3)
+        #print(f"N_canales_voz: {N_canales_voz}")
         N_canales_voz_neto = int(N_canales_voz * 0.85)  # restamos 15% para señalización
-
-        trafico_total_voz = self.erlangs(N_canales_voz_neto, Pb/100)
-        
+        #print(f"N_canales_voz_neto: {N_canales_voz_neto}")
+        trafico_total_voz = self.erlangs(N_canales_voz_neto, Pb / 100)
+        #print(f"trafico_total_voz: {trafico_total_voz}")
+        if trafico_total_voz is None:
+            print("Error: No se pudo calcular el tráfico total de voz. Verifique los parámetros de entrada.")
+            return None
         trafico_usuario_Erlang = trafico_usuario_mErlang / 1000
-
+        #print(f"trafico_usuario_Erlang: {trafico_usuario_Erlang}")
+        if trafico_usuario_Erlang == 0:
+            print("Error: trafico_usuario_Erlang es cero, no se puede dividir.")
+            return None
         N_usuarios_voz_sector = trafico_total_voz / trafico_usuario_Erlang
         N_usuarios_voz_emplazamiento = N_usuarios_voz_sector * 3
-
+        if N_usuarios_voz_emplazamiento == 0:
+            print("Error: N_usuarios_voz_emplazamiento es cero, no se puede dividir.")
+            return None
         N_emplazamientos_voz = poblacion_cliente / N_usuarios_voz_emplazamiento
-
         return N_emplazamientos_voz
-
+    
     def calcular_capacidad_datos(self,Btotal_MHz, Bv_MHz, Ef, load_sector, Trafico_usuario_GB_mes, porcentaje_BH, poblacion_cliente):
         Bd_MHz = Btotal_MHz - Bv_MHz
 
@@ -151,8 +162,8 @@ class Capacidad:
         N_emplazamientos_voz = self.calcular_capacidad_voz(val_Bv_MHz, val_Ef, val_RbCODEC_bps, val_trafico_usuario_mErlang, val_poblacion_cliente, val_Pb)
         N_emplazamientos_datos = self.calcular_capacidad_datos(val_Btotal_MHz, val_Bv_MHz, val_Ef, val_load_sector, val_Trafico_usuario_GB_mes, val_porcentaje_BH, val_poblacion_cliente)
 
-        GUI.label_resultados1_set.configure(text= round(N_emplazamientos_voz))
-        GUI.label_resultados2_set.configure(text=round(N_emplazamientos_datos))
+        GUI.label_resultados1_set.configure(text= math.ceil(N_emplazamientos_voz))
+        GUI.label_resultados2_set.configure(text=math.ceil(N_emplazamientos_datos))
 
 ef = Eficiencia()
 cap = Capacidad()

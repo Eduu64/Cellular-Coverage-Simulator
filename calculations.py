@@ -29,7 +29,7 @@ def calcular():
         value15 = float(GUI.radio_var.get())
         modelo = GUI.desplegable2.get()
 
-        geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
+        geolocator = Nominatim(timeout=10,user_agent="Celullar Station simulator")
 
         
         location = geolocator.reverse(f"{value1}, {value2}")  # Pasa las coordenadas como una tupla
@@ -179,7 +179,7 @@ def calculareNodes():
 
         GUI.desplegable2.set(modelo)
 
-        geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
+        geolocator = Nominatim(timeout=10,user_agent="Celullar Station simulator")
         
         location_types = []
 
