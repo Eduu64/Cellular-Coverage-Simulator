@@ -1,17 +1,11 @@
+
 class Area:
-    Area = 0
-    AreaCobertura = 0
-    
-    def getArea(self):
-        return self.Area
-    
-    def setArea(self,Area):
-        self.Area +=  Area
 
-    def setAreaeNode(self,Area):
-        self.AreaCobertura = Area
+    def __init__(self):
 
-    def getAreaCobertura(self):
-        return self.AreaCobertura
+        self.Area = {}
+        self.AreaTotal = 0
+        self.AreaEfectivaCobertura = 0
+        self.eNodes = 0
     
 a = Area()

@@ -3,8 +3,14 @@ from tkinter import *
 import GUI 
 from geopy.geocoders import Nominatim
 from AreaBTS import a
+import math
+
+SIMULACIONES = []
+
+Id = 0
 
 def calcular():
+    global Id, SIMULACIONES
     try:
         # Obtener valores de las entradas
         value1 = float(GUI.entry_latitud.get())
@@ -18,7 +24,6 @@ def calcular():
         value9 = float(GUI.entry_alturabase.get())
         value10 = float(GUI.entry_alturamovil.get())
         value12 = float(GUI.entry_cobertura.get())
-        sector = GUI.desplegable.get()
         value13 = float(GUI.entry_perdidasanadidas.get())
         value14 = float(GUI.entry_margen.get())
         value15 = float(GUI.radio_var.get())
@@ -47,67 +52,16 @@ def calcular():
             value16 = 'campo'
 
         # Crear instancia de la clase SIM
-        sim = SIM(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, modelo)
-        Pd = sim.Calculard(sector)
-        print(Pd)
-
-        if not Pd:
-            print("No se encontraron distancias válidas.")
-            return
-
-        coordenadas = [(lat, lon) for angulo, d, lat, lon in Pd]
-
-        if not coordenadas:
-            print("No se generaron coordenadas válidas.")
-            return
-
-        # Lógica para mostrar resultados en el mapa
-        if sector != "Cálculo eNodes":
-            try:
-            
-                icon = PhotoImage(file="Proyecto2\Img\Antena.png")  # Cambiar path relativa en cada caso
-                GUI.map_widget.set_marker(value1, value2, text="BTS", icon=icon)
+        sim = SIM(Id, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, modelo)
+        sim.Calculard()
+        print(sim.Pd)
+        sim.calcular_boundary()
+        SIMULACIONES.append(sim) 
+        valores_actuales = list(GUI.desplegable3['values'])
+        valores_actuales.append(f"BTS {Id}")
+        GUI.desplegable3['values'] = valores_actuales        
+        Id += 1
         
-            except Exception :
-
-                GUI.map_widget.set_marker(value1, value2, text="BTS") # Si no encuentra path de la imagen pone default
-            
-            polygon_color = "black" if sector == "Sector 1" else "black" if sector == "Sector 2" else "black"
-            GUI.map_widget.set_polygon(coordenadas, fill_color=polygon_color, outline_color=polygon_color, border_width=4)
-
-            max_value_tupla = max(Pd, key=lambda x: x[1]) #distancia mas larga
-            #Extraer y ordenar las distancias únicas
-            distancias_unicas = sorted({x[1] for x in Pd}, reverse=True)        
-            #Obtener la segunda más alta (si existe)
-            if len(distancias_unicas) >= 2:
-                Segmax_value = distancias_unicas[1]
-                max_value = max_value_tupla[1]
-
-                #Buscar la tupla que tenga esa distancia
-                #segundo_valor = next(x for x in Pd if x[1] == max_value)
-            else:
-                Segmax_value = None  # Si no hay suficientes valores distintos    
-
-            d_bts = max_value + Segmax_value 
-
-            x = 90 if sector == "Sector 1" else 210 if sector == "Sector 2" else 330
-            dr_bts_latitude, dr_bts_longitude = sim.calcular_coordenadas(d_bts, x)
-            try:
-                icon = PhotoImage(file="Proyecto2\Img\cross.png")  # Cambiar path relativa en cada caso
-                GUI.map_widget.set_marker(dr_bts_latitude, dr_bts_longitude, text = "", icon=icon)
-
-            except Exception :
-                GUI.map_widget.set_marker(dr_bts_latitude, dr_bts_longitude, text = "")        
-        else:
-            for item in Pd:
-                if item[0] == 330:
-                    d_max = item[1]
-                    break
-            area_km2 = (1.95) * (d_max ** 2)
-            print(f"Área de cobertura: {area_km2} km²")
-            a.setAreaeNode(area_km2)
-
-
     except ValueError as e:
         print(f'Error al calcular Area: {e}')
 
@@ -126,11 +80,149 @@ def calcular_auto(coords):
     GUI.entry_latitud.insert(0, coords[0])  # Insertar latitud
     GUI.entry_longitud.insert(0, coords[1])  # Insertar longitud
 
-    sectores = ["Sector 1", "Sector 2", "Sector 3"]
+    calcular()  # Llamar a la función calcular
 
-    for s in sectores:
+def borrar_BTS():
         try:
-            GUI.desplegable.set(s)  # Establecer el sector en el desplegable
-            calcular()  # Llamar a la función calcular
+            sectores = ['Sector 1', 'Sector 2', 'Sector 3']
+            Id_bts = GUI.desplegable3.get()
+            _ , Id = Id_bts.split()
+            bts = SIMULACIONES[int(Id)]
+                       
+            if bts.x is not None:
+                bts.x.delete()
+            else:
+                print("El objeto bts no tiene el marcador 'x' o es None.")
+            if bts.y is not None:
+                bts.y.delete()
+            else:
+                print("El objeto bts no tiene el marcador 'y' o es None.")
+            if bts.z is not None:
+                bts.z.delete()
+            else:
+                print("El objeto bts no tiene el marcador 'z' o es None.")
+                
+            for sector in sectores:
+                if sector in bts.boundary_estacion:
+                    if bts.boundary_estacion[sector] is not None:
+                        bts.boundary_estacion[sector].delete()
+                    else:
+                        print(f"El sector '{sector}' no tiene un límite definido o es None.")
+                else:
+                    print(f"El sector '{sector}' no está en boundary_estacion.")
+                    
+            if hasattr(bts, 'estacion'):
+                bts.estacion.delete()
+            else:
+                print("El objeto bts no tiene el atributo 'estacion'.")
+
+            if f"BTS {Id}" in GUI.desplegable3['values']:
+                valores_actuales = list(GUI.desplegable3['values'])
+                valores_actuales.remove(f"BTS {Id}")
+                GUI.desplegable3['values'] = valores_actuales
+                GUI.desplegable3.set('')  # Limpiar el ComboBox
+
         except Exception as e:
-            print(f"Error al calcular para el sector {s}: {e}")
+            print(f"Error en borrar_BTS: {e}")
+
+def calculareNodes():
+    try:
+        # Obtener valores de las entradas
+        value3 = float(GUI.entry_potenciatx2.get())
+        value4 = float(GUI.entry_gananciatx2.get())
+        value5 = float(GUI.entry_ltx2.get())
+        value6 = float(GUI.entry_lrx2.get())
+        value7 = float(GUI.entry_gananciarx2.get())
+        value8 = float(GUI.entry_frecuencia2.get())
+        value9 = float(GUI.entry_alturabase2.get())
+        value10 = float(GUI.entry_alturamovil2.get())
+        value12 = float(GUI.entry_cobertura2.get())
+        value13 = float(GUI.entry_perdidasanadidas2.get())
+        value14 = float(GUI.entry_margen2.get())
+        value15 = float(GUI.radio_var2.get())
+        modelo = GUI.desplegable22.get()
+
+        GUI.entry_potenciatx.delete(0, END)
+        GUI.entry_potenciatx.insert(0, value3) 
+
+        GUI.entry_gananciatx.delete(0, END)
+        GUI.entry_gananciatx.insert(0, value4)
+
+        GUI.entry_ltx.delete(0, END)
+        GUI.entry_ltx.insert(0, value5)
+
+        GUI.entry_lrx.delete(0, END)
+        GUI.entry_lrx.insert(0, value6)
+
+        GUI.entry_gananciarx.delete(0, END)
+        GUI.entry_gananciarx.insert(0, value7)
+
+        GUI.entry_frecuencia.delete(0, END)
+        GUI.entry_frecuencia.insert(0, value8)
+
+        GUI.entry_alturabase.delete(0, END)
+        GUI.entry_alturabase.insert(0, value9)
+
+        GUI.entry_alturamovil.delete(0, END)
+        GUI.entry_alturamovil.insert(0, value10)
+
+        GUI.entry_cobertura.delete(0, END)
+        GUI.entry_cobertura.insert(0, value12)
+
+        GUI.entry_perdidasanadidas.delete(0, END)
+        GUI.entry_perdidasanadidas.insert(0, value13)
+
+        GUI.entry_margen.delete(0, END)
+        GUI.entry_margen.insert(0, value14)
+
+        GUI.radio_var.set(value15)
+
+        GUI.desplegable2.set(modelo)
+
+        geolocator = Nominatim(timeout=10,user_agent="Celullar coverage simulator")
+        
+        location_types = []
+
+        for ciudad in a.Area:
+            location = geolocator.geocode(ciudad)
+            if location:
+                #print(location.raw)
+                address = location.raw.get('address', {})
+                if 'hamlet' in address:
+                    location_types.append('hamlet')
+                elif 'village' in address:
+                    location_types.append('village')
+                elif 'town' in address:
+                    location_types.append('town')
+                elif 'city' or 'suburb' in address:
+                    location_types.append('city')
+                else:
+                    location_types.append('campo')
+             
+        for prioridad in ['city', 'town', 'village', 'hamlet', 'campo']:
+            if prioridad in location_types:
+                value16 = prioridad
+                print(value16)
+                break
+
+        value1 = location.latitude
+        value2 = location.longitude
+
+        # Crear instancia de la clase SIM
+        sim = SIM(Id, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, modelo)
+        sim.Calculard()
+        print(sim.Pd)
+        max_value_tupla = max(sim.Pd["Sector 1"], key=lambda x: x[1]) #distancia mas larga
+        d_max = max_value_tupla[1]
+
+        area_efectiva_km2 = (1.95) * (d_max ** 2)
+        a.AreaEfectivaCobertura = area_efectiva_km2
+
+        eNodes = a.AreaTotal/ area_efectiva_km2
+        a.eNodes = eNodes
+
+        GUI.label_enodes_set.config(text=math.ceil(a.eNodes))
+        GUI.label_area_efectiva_set.config(text=str(round(area_efectiva_km2,2)))
+        
+    except ValueError as e:
+        print(f'Error al calcular Area: {e}')

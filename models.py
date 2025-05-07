@@ -1,8 +1,10 @@
 import math
+from tkinter import *
+import GUI
 
 class SIM:
     
-    def __init__(self, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, value17):
+    def __init__(self, Id, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, value17):
         """
         Inicializa la clase SIM con los parámetros necesarios para el cálculo.
 
@@ -55,10 +57,25 @@ class SIM:
         self.GTXS2 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS2]
         self.GTXS3 = [(angulo, self.GTXdBi - perdida) for angulo, perdida in self.LS3]
 
-        # Definición de las pérdidas por sector
+        self.sectores = {
+        "Sector 1": self.GTXS1,
+        "Sector 2": self.GTXS2,
+        "Sector 3": self.GTXS3,
+        }
+
+        self.Pd = {sector: [] for sector in self.sectores}
+
+        self.Id = Id
+
+        self.x = None 
+        self.y = None  
+        self.z = None  
+        self.boundary_estacion = {}
+    # Definición de las pérdidas por sector
     LS1 = [(0, 13), (30, 3), (60, 0), (90, 0), (120, 0), (150, 3), (180, 13), (210, 20), (240, 30), (270, 40), (300, 30), (330, 20)]
     LS2 = [(0, 30), (30, 40), (60, 30), (90, 20), (120, 13), (150, 3), (180, 0), (210, 0), (240, 0), (270, 3), (300, 13), (330, 20)]
     LS3 = [(0, 0), (30, 3), (60, 13), (90, 20), (120, 30), (150, 40), (180, 30), (210, 20), (240, 13), (270, 3), (300, 0), (330, 0)]
+
 
     def calcular_a_hm(self):
         """
@@ -99,38 +116,84 @@ class SIM:
 
         return newLat, newLon
 
-    def Calculard(self, value):
+    def Calculard(self):
         """
         Calcula las distancias y coordenadas para el sector seleccionado.
 
         :param value: Sector seleccionado.
         :return: Lista de distancias y coordenadas.
         """
-        Pd = []
-
-        if value == "Sector 1":
-            G = self.GTXS1
-        elif value == "Sector 2":
-            G = self.GTXS2
-        else:
-            G = self.GTXS3
 
         a = self.calcular_a_hm()
 
-        for angulo, gananciatx in G:
-            if self.modelo == "Okumura Hata":
-                d = self._calcular_distancia_okumura_hata(gananciatx, a)
-            elif self.modelo == "COST231":
-                d = self._calcular_distancia_cost231(gananciatx, a)
-            else:
-                print("Error en el modelo escogido")
-                break
+        for sector, lista_ganancia in self.sectores.items():
+            for angulo, gananciatx in lista_ganancia:
+                if self.modelo == "Okumura Hata":
+                    d = self._calcular_distancia_okumura_hata(gananciatx, a)
+                elif self.modelo == "COST231":
+                    d = self._calcular_distancia_cost231(gananciatx, a)
+                else:
+                    print("Error en el modelo escogido")
+                    break
 
-            newLat, newLon = self.calcular_coordenadas(d, angulo)
-            Pd.append((angulo, d, newLat, newLon))
+                newLat, newLon = self.calcular_coordenadas(d, angulo)
+                self.Pd[sector].append((angulo, d, newLat, newLon))
 
-        return Pd
+    def calcular_boundary(self):
 
+        if not self.Pd:
+            print("No se encontraron distancias válidas.")
+            return
+                
+        # Lógica para mostrar resultados en el mapa
+        try:
+        
+            icon = PhotoImage(file="Proyecto2\Img\Antena.png")  # Cambiar path relativa en cada caso
+            self.estacion = GUI.map_widget.set_marker(self.LAT, self.LON, text=f"BTS {self.Id}", icon=icon)
+    
+        except Exception :
+
+            self.estacion = GUI.map_widget.set_marker(self.LAT, self.LON, text=f"BTS {self.Id}") # Si no encuentra path de la imagen pone default
+            
+        
+        for sector, lista_ganancia in self.sectores.items():
+            coordenadas = [(lat, lon) for angulo, d, lat, lon in self.Pd[sector]]
+            self.boundary_estacion[sector] = GUI.map_widget.set_polygon(coordenadas, fill_color="black", outline_color="black", border_width=4)
+        
+        max_value_tupla = max(self.Pd["Sector 1"], key=lambda x: x[1]) #distancia mas larga
+        #Extraer y ordenar las distancias únicas
+        distancias_unicas = sorted({x[1] for x in self.Pd["Sector 1"]}, reverse=True)        
+        #Obtener la segunda más alta (si existe)
+        if len(distancias_unicas) >= 2:
+            Segmax_value = distancias_unicas[1]
+            max_value = max_value_tupla[1]
+
+            #Buscar la tupla que tenga esa distancia
+            #segundo_valor = next(x for x in Pd if x[1] == max_value)
+        else:
+            Segmax_value = None  # Si no hay suficientes valores distintos    
+
+        d_bts = max_value + Segmax_value 
+
+        dr_bts_latitude1, dr_bts_longitude1 = self.calcular_coordenadas(d_bts, 90)
+        dr_bts_latitude2, dr_bts_longitude2 = self.calcular_coordenadas(d_bts, 210)
+        dr_bts_latitude3, dr_bts_longitude3 = self.calcular_coordenadas(d_bts, 330)
+
+
+        try:
+            icon = PhotoImage(file="Proyecto2\Img\cross.png")  # Cambiar path relativa en cada caso
+
+            self.x = GUI.map_widget.set_marker(dr_bts_latitude1, dr_bts_longitude1, text = "", icon=icon)
+            self.y = GUI.map_widget.set_marker(dr_bts_latitude2, dr_bts_longitude2, text = "", icon=icon)
+            self.z = GUI.map_widget.set_marker(dr_bts_latitude3, dr_bts_longitude3, text = "", icon=icon)
+        
+        except Exception :
+            self.x = GUI.map_widget.set_marker(dr_bts_latitude1, dr_bts_longitude1, text = "")
+            self.y = GUI.map_widget.set_marker(dr_bts_latitude2, dr_bts_longitude2, text = "")
+            self.z = GUI.map_widget.set_marker(dr_bts_latitude3, dr_bts_longitude3, text = "")
+
+
+    
     def _calcular_distancia_okumura_hata(self, gananciatx, a):
         """
         Calcula la distancia usando el modelo Okumura Hata.
@@ -158,3 +221,5 @@ class SIM:
             return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.6 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a - 3) / (44.9 - 6.55 * math.log10(self.Hb)))
         else:
             return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.6 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a) / (44.9 - 6.55 * math.log10(self.Hb)))
+        
+
