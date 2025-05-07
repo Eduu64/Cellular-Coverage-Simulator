@@ -1,4 +1,4 @@
-# 📡 **Simulador de Estaciones Móviles** / **Cellular Stations Simulator**
+![image](https://github.com/user-attachments/assets/c51beab2-a94b-470d-9c4d-575b04f81f85)# 📡 **Simulador de Estaciones Móviles** / **Cellular Stations Simulator**
 
 ⚠️ Todavía en desarrollo / still under development
 
@@ -90,17 +90,16 @@ pip install tkintermapview customtkinter geopy pyproj shapely requests
 ---
 
 ## 🎥 Demo
-### 🔹 Interfaz de Usuario / User Interface
-![image](https://github.com/user-attachments/assets/1e556c10-53c1-46f1-8d96-0a991e9ba9a5)
+### 🔹 Simulación de cobertura / Coverage simulation
+![image](https://github.com/user-attachments/assets/4256128e-8a24-4d80-b034-9eaa97c37c0d)
+![image](https://github.com/user-attachments/assets/f08dcfe1-217b-41e4-8aea-dc61e473805f)
 
 ### 🔹 Estimación de bases en Cobertura / Coverage Estimation
-![image](https://github.com/user-attachments/assets/affa2a6d-3fee-4b7e-be85-b18abe581454)
+![image](https://github.com/user-attachments/assets/4afa6d37-f91e-4ec5-bf40-ea79751fee9e)
+![image](https://github.com/user-attachments/assets/163b395c-5b7c-4e0c-a6d3-c9cc505c6c16)
 
 ### 🔹 Ventana emergente auxiliar / Auxiliary Pop-up
-![image](https://github.com/user-attachments/assets/2ba80318-d9f3-4ec7-864a-2ef85c0db97d)
-
-### 🔹 Visualización de Resultados de Cobertura / Coverage Results
-![image](https://github.com/user-attachments/assets/ec0525af-1576-4fc2-8912-9a7560973083)
+![image](https://github.com/user-attachments/assets/4fa62e3c-42e2-4de9-a2ff-5e01aeba16f9)
 
 ### 🔹 Cálculo de Eficiencia Espectral a través de CQI (After release 12 3GPP) / CQI-based Spectral Efficiency
 ![image](https://github.com/user-attachments/assets/5b4b5d11-de4b-4840-97fd-45af243319b4)
