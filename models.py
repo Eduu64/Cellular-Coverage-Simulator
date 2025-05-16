@@ -99,7 +99,7 @@ class SIM:
         :param angulo: Ángulo de dirección.
         :return: Nuevas coordenadas (latitud, longitud).
         """
-        R = 6378.1  # Radio de la Tierra en kilómetros
+        R = 6371  # Radio de la Tierra en kilómetros
         phi1 = math.radians(self.LAT)  # Convertir latitud a radianes
         lambda1 = math.radians(self.LON)  # Convertir longitud a radianes
         ang = math.radians((angulo))  # Convertir ángulo a radianes
