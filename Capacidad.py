@@ -6,8 +6,8 @@ from tkinter import messagebox
 class Eficiencia:
     # Datos de CQI (tabla derecha de la imagen)
     cqi_data = {
-        1: ("QPSK", 0.0762, 2),
-        2: ("QPSK", 0.12, 2),
+        1: ("QPSK", 0.078, 2),
+        2: ("QPSK", 0.120, 2),
         3: ("QPSK", 0.193, 2),
         4: ("QPSK", 0.308, 2),
         5: ("QPSK", 0.449, 2),
