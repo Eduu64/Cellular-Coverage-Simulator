@@ -1,6 +1,7 @@
 import math
 from tkinter import *
 import GUI
+import os
 
 class SIM:
     
@@ -147,8 +148,8 @@ class SIM:
                 
         # Lógica para mostrar resultados en el mapa
         try:
-        
-            icon = PhotoImage(file="Proyecto2\Img\Antena.png")  # Cambiar path relativa en cada caso
+            ruta_imagen = os.path.join(os.path.dirname(__file__), "Img", "Antena.png")
+            icon = PhotoImage(file=ruta_imagen)  # Cambiar path relativa en cada caso
             self.estacion = GUI.map_widget.set_marker(self.LAT, self.LON, text=f"BTS {self.Id}", icon=icon)
     
         except Exception :
@@ -181,7 +182,8 @@ class SIM:
 
 
         try:
-            icon = PhotoImage(file="Proyecto2\Img\cross.png")  # Cambiar path relativa en cada caso
+            ruta_imagen = os.path.join(os.path.dirname(__file__), "Img", "cross.png")
+            icon = PhotoImage(file=ruta_imagen)  # Cambiar path relativa en cada caso
 
             self.x = GUI.map_widget.set_marker(dr_bts_latitude1, dr_bts_longitude1, text = "", icon=icon)
             self.y = GUI.map_widget.set_marker(dr_bts_latitude2, dr_bts_longitude2, text = "", icon=icon)

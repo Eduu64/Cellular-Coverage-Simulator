@@ -130,7 +130,7 @@ class Capacidad:
         N_emplazamientos_voz = poblacion_cliente / N_usuarios_voz_emplazamiento
         return N_emplazamientos_voz
     
-    def calcular_capacidad_datos(self,Btotal_MHz, Bv_MHz, Ef, load_sector, Trafico_usuario_GB_mes, porcentaje_BH, poblacion_cliente):
+    def calcular_capacidad_datos(self,Btotal_MHz, Bv_MHz, Ef, load_sector, Trafico_usuario_GB_mes, porcentaje_BH, poblacion_cliente, OveerbookingFactor, CapacidadInstantanea):
         Bd_MHz = Btotal_MHz - Bv_MHz
 
         C_T_Mbps = Ef * Bd_MHz 
@@ -139,12 +139,16 @@ class Capacidad:
 
         Trafico_diario_BH_Gbps = ((Trafico_usuario_GB_mes / 30) * (porcentaje_BH/100) * (8)) / 3600
 
-        N_usuarios_sector = C_media_Gbps / Trafico_diario_BH_Gbps
-        N_usuarios_emplazamiento = N_usuarios_sector * 3
+        N_usuarios_sector_mes = C_media_Gbps / Trafico_diario_BH_Gbps
+        N_usuarios_emplazamiento_mes = N_usuarios_sector_mes * 3
 
-        N_emplazamientos_datos = poblacion_cliente / N_usuarios_emplazamiento
+        N_emplazamientos_datos_mes = poblacion_cliente / N_usuarios_emplazamiento_mes
 
-        return N_emplazamientos_datos
+        N_usuarios_sector_instantaneo = (C_media_Mbps/CapacidadInstantanea)*OveerbookingFactor
+        N_usuarios_emplazamiento_instantaneo = N_usuarios_sector_instantaneo * 3
+        N_emplazamientos_datos_instantaneo = poblacion_cliente / N_usuarios_emplazamiento_instantaneo
+
+        return N_emplazamientos_datos_mes, N_emplazamientos_datos_instantaneo
     
     def calcular_capacidad(self):
 
@@ -158,12 +162,16 @@ class Capacidad:
         val_porcentaje_BH = float(GUI.entry_porcentaje_BH.get())
         val_load_sector = float(GUI.entry_load_sector.get())
         val_poblacion_cliente = int(GUI.entry_poblacion_cliente.get())
+        val_OF = int(GUI.entry_OF.get())
+        val_Cu = float(GUI.entry_Cu.get())
 
         N_emplazamientos_voz = self.calcular_capacidad_voz(val_Bv_MHz, val_Ef, val_RbCODEC_bps, val_trafico_usuario_mErlang, val_poblacion_cliente, val_Pb)
-        N_emplazamientos_datos = self.calcular_capacidad_datos(val_Btotal_MHz, val_Bv_MHz, val_Ef, val_load_sector, val_Trafico_usuario_GB_mes, val_porcentaje_BH, val_poblacion_cliente)
+        N_emplazamientos_datos_mes, N_emplazamientos_datos_instantaneo = self.calcular_capacidad_datos(val_Btotal_MHz, val_Bv_MHz, val_Ef, val_load_sector, val_Trafico_usuario_GB_mes, val_porcentaje_BH, val_poblacion_cliente, val_OF, val_Cu)
 
         GUI.label_resultados1_set.configure(text= math.ceil(N_emplazamientos_voz))
-        GUI.label_resultados2_set.configure(text=math.ceil(N_emplazamientos_datos))
+        GUI.label_resultados2_set.configure(text=math.ceil(N_emplazamientos_datos_mes))
+        GUI.label_resultados3_set.configure(text=math.ceil(N_emplazamientos_datos_instantaneo))
+
 
 ef = Eficiencia()
 cap = Capacidad()

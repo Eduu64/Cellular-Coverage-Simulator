@@ -5,7 +5,7 @@ import customtkinter
 from calculations import calcular,calcular_auto, borrar_BTS, calculareNodes
 from API import api
 from Capacidad import ef, cap
-
+import os
 
 customtkinter.deactivate_automatic_dpi_awareness()
 customtkinter.set_appearance_mode("light")
@@ -808,6 +808,40 @@ main_frame3.pack()
 main_frame4 = Frame(tab4)
 main_frame4.configure(bg="#FFFFFF")
 main_frame4.pack(side=LEFT,fill=BOTH, expand=True)
+
+main_frame5 = Frame(tab4)
+main_frame5.configure(bg="#FFFFFF", background="#FFFFFF")
+main_frame5.pack(side=RIGHT)
+
+try:
+    ruta_imagen = os.path.join(os.path.dirname(__file__), "Img", "BTS.png")
+    foto = PhotoImage(file=ruta_imagen)  # Cambiar path relativa en cada caso
+    foto_bts = Label(main_frame5, image=foto, bg="#FFFFFF")
+    foto_bts.pack(side="bottom", pady=[100,0])
+
+except Exception :
+
+    print("Error al cargar la imagen de capacidad")
+
+# Crear un canvas dentro del frame principal capacidad
+canvas2 = Canvas(main_frame4)
+canvas2.configure(background="#FFFFFF",highlightbackground="#FFFFFF",highlightcolor="#FFFFFF")
+canvas2.pack(side=LEFT, fill=BOTH, expand=True)
+
+# Crear una scrollbar y vincularla al canvas
+scrollbar3 = Scrollbar(main_frame4, orient=VERTICAL, command=canvas2.yview)
+scrollbar3.pack(side=RIGHT, fill=Y)
+
+# Configurar el canvas para que use la scrollbar
+canvas2.configure(yscrollcommand=scrollbar3.set)
+canvas2.bind(
+    '<Configure>', lambda e: canvas2.configure(scrollregion=canvas2.bbox("all"))
+)
+
+# Crear un frame dentro del canvas
+frame3 = Frame(canvas2)
+frame3.configure(bg="#FFFFFF")
+canvas2.create_window((0, 0), window=frame3, anchor='nw')
 # ---------- Tabla con todos los datos ----------
 label1 = Label(main_frame3, text="Tabla completa de CQI:", bg="#FFFFFF").pack(pady=5)
 table_frame = Frame(main_frame3)
@@ -875,7 +909,7 @@ command=ef.reset_all).grid(row=0, column=2, padx=20)
 # ---------- Calculo Capacidad ----------
 
 # Btotal_MHz
-frame_btotal = Frame(main_frame4, bg="#FFFFFF")
+frame_btotal = Frame(frame3, bg="#FFFFFF")
 frame_btotal.pack(anchor='w', pady=10)
 label_btotal = ttk.Label(frame_btotal, text="Bandwith Total: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_btotal.pack(side='left')
@@ -885,7 +919,7 @@ label_btotal2 = ttk.Label(frame_btotal, text="MHz", width=10, anchor='w', font=(
 label_btotal2.pack(side='left')
 
 # Bv_MHz
-frame_bv = Frame(main_frame4, bg="#FFFFFF")
+frame_bv = Frame(frame3, bg="#FFFFFF")
 frame_bv.pack(anchor='w', pady=10)
 label_bv = ttk.Label(frame_bv, text="Bandwith Voz: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_bv.pack(side='left')
@@ -895,7 +929,7 @@ label_bv2 = ttk.Label(frame_bv, text="MHz", width=10, anchor='w', font=("Arial",
 label_bv2.pack(side='left')
 
 # Ef
-frame_ef = Frame(main_frame4, bg="#FFFFFF")
+frame_ef = Frame(frame3, bg="#FFFFFF")
 frame_ef.pack(anchor='w', pady=10)
 label_ef = ttk.Label(frame_ef, text="Eficiencia Espectral: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_ef.pack(side='left')
@@ -905,7 +939,7 @@ label_ef2 = ttk.Label(frame_ef, text="bps/Hz", width=10, anchor='w', font=("Aria
 label_ef2.pack(side='left')
 
 # Pb
-frame_pb = Frame(main_frame4, bg="#FFFFFF")
+frame_pb = Frame(frame3, bg="#FFFFFF")
 frame_pb.pack(anchor='w', pady=10)
 label_pb = ttk.Label(frame_pb, text="Probabilidad de Bloqueo: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_pb.pack(side='left')
@@ -915,7 +949,7 @@ label_pb2 = ttk.Label(frame_pb, text="%", width=10, anchor='w', font=("Arial", 1
 label_pb2.pack(side='left')
 
 # RbCODEC_bps
-frame_rbcodec = Frame(main_frame4, bg="#FFFFFF")
+frame_rbcodec = Frame(frame3, bg="#FFFFFF")
 frame_rbcodec.pack(anchor='w', pady=10)
 label_rbcodec = ttk.Label(frame_rbcodec, text="RbCODEC: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_rbcodec.pack(side='left')
@@ -925,7 +959,7 @@ label_rbcodec2 = ttk.Label(frame_rbcodec, text="Kbps", width=10, anchor='w', fon
 label_rbcodec2.pack(side='left')
 
 # trafico_usuario_mErlang
-frame_trafico_me = Frame(main_frame4, bg="#FFFFFF")
+frame_trafico_me = Frame(frame3, bg="#FFFFFF")
 frame_trafico_me.pack(anchor='w', pady=10)
 label_trafico_me = ttk.Label(frame_trafico_me, text="Tráfico usuario móvil: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_trafico_me.pack(side='left')
@@ -935,7 +969,7 @@ label_trafico_me2 = ttk.Label(frame_trafico_me, text="mErlangs", width=10, ancho
 label_trafico_me2.pack(side='left')
 
 # Trafico_usuario_GB_mes
-frame_trafico_gb = Frame(main_frame4, bg="#FFFFFF")
+frame_trafico_gb = Frame(frame3, bg="#FFFFFF")
 frame_trafico_gb.pack(anchor='w', pady=10)
 label_trafico_gb = ttk.Label(frame_trafico_gb, text="Tráfico usuario mensual: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_trafico_gb.pack(side='left')
@@ -944,7 +978,7 @@ entry_Trafico_usuario_GB_mes.pack(side='left', fill='x', expand=True)
 label_trafico_gb2 = ttk.Label(frame_trafico_gb, text="GB/mes", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
 label_trafico_gb2.pack(side='left')
 # porcentaje_BH
-frame_porcentaje = Frame(main_frame4, bg="#FFFFFF")
+frame_porcentaje = Frame(frame3, bg="#FFFFFF")
 frame_porcentaje.pack(anchor='w', pady=10)
 label_porcentaje = ttk.Label(frame_porcentaje, text="Porcentaje de Tráfico en BH: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_porcentaje.pack(side='left')
@@ -954,7 +988,7 @@ label_porcentaje2 = ttk.Label(frame_porcentaje, text="%", width=10, anchor='w', 
 label_porcentaje2.pack(side='left')
 
 # load_sector
-frame_load = Frame(main_frame4, bg="#FFFFFF")
+frame_load = Frame(frame3, bg="#FFFFFF")
 frame_load.pack(anchor='w', pady=10)
 label_load = ttk.Label(frame_load, text="Carga del sector: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_load.pack(side='left')
@@ -964,16 +998,36 @@ label_load2 = ttk.Label(frame_load, text="%", width=10, anchor='w', font=("Arial
 label_load2.pack(side='left')
 
 # poblacion_cliente
-frame_poblacion = Frame(main_frame4, bg="#FFFFFF")
+frame_poblacion = Frame(frame3, bg="#FFFFFF")
 frame_poblacion.pack(anchor='w', pady=10)
 label_poblacion = ttk.Label(frame_poblacion, text="Población cliente: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_poblacion.pack(side='left')
 entry_poblacion_cliente = customtkinter.CTkEntry(frame_poblacion)
 entry_poblacion_cliente.pack(side='left', fill='x', expand=True)
 
+# OF
+frame_OF = Frame(frame3, bg="#FFFFFF")
+frame_OF.pack(anchor='w', pady=10)
+label_OF = ttk.Label(frame_OF, text="Overbooking Factor: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_OF.pack(side='left')
+entry_OF = customtkinter.CTkEntry(frame_OF)
+entry_OF.pack(side='left', fill='x', expand=True)
+label_OF2 = ttk.Label(frame_OF, text="1:N", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_OF2.pack(side='left')
+
+# Consumo Instantaneo
+frame_Cu = Frame(frame3, bg="#FFFFFF")
+frame_Cu.pack(anchor='w', pady=10)
+label_Cu = ttk.Label(frame_Cu, text="Consumo Instantaneo: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_Cu.pack(side='left')
+entry_Cu = customtkinter.CTkEntry(frame_Cu)
+entry_Cu.pack(side='left', fill='x', expand=True)
+label_Cu2 = ttk.Label(frame_Cu, text="Mbps", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_Cu2.pack(side='left')
+
 # Submit button
 submit_btn = customtkinter.CTkButton(
-    master=main_frame4,
+    master=frame3,
     fg_color="RED", #color of the button
     hover_color="#cc0000", #color of the button when mouse is over
     font=("Montserrat", 14), #font used
@@ -985,7 +1039,7 @@ submit_btn = customtkinter.CTkButton(
 submit_btn.pack(pady=20, anchor='w')
 
 # Resultados
-frame_resultado1 = Frame(main_frame4, bg="#FFFFFF")
+frame_resultado1 = Frame(frame3, bg="#FFFFFF")
 frame_resultado1.pack(anchor='w', pady=10)
 
 label_resultados1 = ttk.Label(frame_resultado1, text="Emplazamientos por Voz: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
@@ -993,10 +1047,26 @@ label_resultados1.pack(side='left')
 label_resultados1_set = ttk.Label(frame_resultado1, text="", width=10, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_resultados1_set.pack(side='left')
 
-frame_resultado2 = Frame(main_frame4, bg="#FFFFFF")
-frame_resultado2.pack(anchor='w', pady=10)
 
-label_resultados2 = ttk.Label(frame_resultado2, text="Emplazamientos por Datos: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+
+frame_entranteresultado = Frame(frame3, bg="#FFFFFF")
+frame_entranteresultado.pack(anchor='w', pady=10)
+
+label_entranteresultadoresultados = ttk.Label(frame_entranteresultado, text="Emplazamientos por Datos ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_entranteresultadoresultados.pack(side='left')
+
+frame_resultado2 = Frame(frame3, bg="#FFFFFF")
+frame_resultado2.pack(anchor='w', pady=10, padx=5)
+
+label_resultados2 = ttk.Label(frame_resultado2, text="Tráfico medio: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_resultados2.pack(side='left')
 label_resultados2_set = ttk.Label(frame_resultado2, text="", width=10, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_resultados2_set.pack(side='left')
+
+frame_resultado3 = Frame(frame3, bg="#FFFFFF")
+frame_resultado3.pack(anchor='w', pady=10, padx=5)
+
+label_resultados3 = ttk.Label(frame_resultado3, text="Capacidad Instantanea: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_resultados3.pack(side='left')
+label_resultados3_set = ttk.Label(frame_resultado3, text="", font=("Arial", 12), background="#FFFFFF")
+label_resultados3_set.pack(side='left')
