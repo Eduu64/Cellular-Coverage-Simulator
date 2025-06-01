@@ -84,7 +84,7 @@ class SIM:
         
         :return: Altura efectiva del receptor.
         """
-        if self.type_location == "city":
+        if self.type_location == "city" and self.modelo == 'Okumura Hata':
             if self.frec <= 200:
                 return 8.29 * (math.log10(1.54 * self.Hm))**2 - 1.1
             else:
@@ -206,7 +206,7 @@ class SIM:
         """
         if self.type_location == "village":
             return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 69.55 - 26.16 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a + 2 * (math.log10(self.frec / 28)**2) + 5.4) / (44.9 - 6.55 * math.log10(self.Hb)))
-        elif self.type_location == "hamlet":
+        elif self.type_location == "hamlet" or self.type_location == "campo":
             return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 69.55 - 26.16 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a + 4.78 * (math.log10(self.frec))**2 - 18.33 * math.log10(self.frec) + 40.94) / (44.9 - 6.55 * math.log10(self.Hb)))
         else:
             return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 69.55 - 26.16 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a) / (44.9 - 6.55 * math.log10(self.Hb)))
@@ -222,6 +222,6 @@ class SIM:
         if self.type_location == "city":
             return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.6 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a - 3) / (44.9 - 6.55 * math.log10(self.Hb)))
         else:
-            return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.6 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a) / (44.9 - 6.55 * math.log10(self.Hb)))
+            return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.6 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a - 0) / (44.9 - 6.55 * math.log10(self.Hb)))
         
 

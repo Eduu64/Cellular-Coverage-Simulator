@@ -29,27 +29,33 @@ def calcular():
         value15 = float(GUI.radio_var.get())
         modelo = GUI.desplegable2.get()
 
-        geolocator = Nominatim(timeout=10,user_agent="Celullar Station simulator")
+        tipodeciudadauto = GUI.switch_var1.get()
+        desplegable1 = GUI.desplegable1.get()
 
-        
-        location = geolocator.reverse(f"{value1}, {value2}")  # Pasa las coordenadas como una tupla
-        value16 = location.raw.get('address', {})
+        if tipodeciudadauto == "off":
+            geolocator = Nominatim(timeout=10,user_agent="Celullar Station simulator")
+            location = geolocator.reverse(f"{value1}, {value2}")  # Pasa las coordenadas como una tupla
+            value16 = location.raw.get('address', {})
 
-        if 'hamlet' in value16:
-            print("hamlet")
-            value16 = 'hamlet'
-        elif 'village' in value16:
-            print("village")
-            value16 = 'village'
-        elif 'town' in value16:
-            print("town")
-            value16 = 'town'
-        elif 'city' in value16:
-            print("city")
-            value16 = 'city'
+            if 'hamlet' in value16:
+                print("hamlet")
+                value16 = 'hamlet'
+            elif 'village' in value16:
+                print("village")
+                value16 = 'village'
+            elif 'town' in value16:
+                print("town")
+                value16 = 'town'
+            elif 'city' in value16:
+                print("city")
+                value16 = 'city'
+            else:
+                print("campo")
+                value16 = 'campo'
         else:
-            print("campo")
-            value16 = 'campo'
+            value16 = desplegable1
+
+        print(value16)
 
         # Crear instancia de la clase SIM
         sim = SIM(Id, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, modelo)
@@ -142,6 +148,9 @@ def calculareNodes():
         value15 = float(GUI.radio_var2.get())
         modelo = GUI.desplegable22.get()
 
+        tipodeciudadauto = GUI.switch_var2.get()
+        desplegable1 = GUI.desplegable11.get()
+
         GUI.entry_potenciatx.delete(0, END)
         GUI.entry_potenciatx.insert(0, value3) 
 
@@ -179,6 +188,7 @@ def calculareNodes():
 
         GUI.desplegable2.set(modelo)
 
+
         geolocator = Nominatim(timeout=10,user_agent="Celullar Station simulator")
         
         location_types = []
@@ -198,12 +208,16 @@ def calculareNodes():
                     location_types.append('city')
                 else:
                     location_types.append('campo')
-             
-        for prioridad in ['city', 'town', 'village', 'hamlet', 'campo']:
-            if prioridad in location_types:
-                value16 = prioridad
-                print(value16)
-                break
+        
+        if tipodeciudadauto == "off":
+            for prioridad in ['city', 'town', 'village', 'hamlet', 'campo']:
+                if prioridad in location_types:
+                    value16 = prioridad
+                    break
+        else:
+            value16 = desplegable1
+
+        print(value16)
 
         value1 = location.latitude
         value2 = location.longitude

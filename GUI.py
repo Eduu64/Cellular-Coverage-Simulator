@@ -625,11 +625,37 @@ radio_bt_uplink2 = customtkinter.CTkRadioButton(
 )
 radio_bt_uplink2.pack(side='left', padx=10)
 
+
+# Desplegable 1: Elector de ciudad
+frame_desplegable1 = Frame(frame, bg="#FFFFFF")
+frame_desplegable1.pack(anchor='w', pady=5)
+
+switch_var1 = customtkinter.StringVar(value="off")
+switch1 = customtkinter.CTkSwitch(frame_desplegable1, text="",
+                                 variable=switch_var1, onvalue="on", offvalue="off")
+switch1.pack(side=RIGHT)
+
+desplegable1 = ttk.Combobox(frame_desplegable1, width=50, values=['city', 'town', 'village', 'hamlet', 'campo'])
+desplegable1.pack(side=LEFT,fill='x', expand=True)
+
 # Desplegable 2: selección modelo
 frame_desplegable2 = Frame(frame, bg="#FFFFFF")
 frame_desplegable2.pack(anchor='w', pady=5)
 desplegable2 = ttk.Combobox(frame_desplegable2, width=50, values=["Okumura Hata", "COST231"])
 desplegable2.pack(fill='x', expand=True)
+
+# Desplegable 1: Elector de ciudad
+frame_desplegable11 = Frame(frame2, bg="#FFFFFF")
+frame_desplegable11.pack(anchor='w', pady=5)
+
+switch_var2 = customtkinter.StringVar(value="off")
+switch2 = customtkinter.CTkSwitch(frame_desplegable11, text="",
+                                 variable=switch_var2, onvalue="on", offvalue="off")
+switch2.pack(side=RIGHT)
+
+
+desplegable11 = ttk.Combobox(frame_desplegable11, width=50, values=['city', 'town', 'village', 'hamlet', 'campo'])
+desplegable11.pack(side=LEFT,fill='x', expand=True)
 
 # Desplegable 2: selección modelo
 frame_desplegable22 = Frame(frame2, bg="#FFFFFF")
