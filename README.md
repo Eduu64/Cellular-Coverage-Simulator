@@ -104,7 +104,7 @@ pip install tkintermapview customtkinter geopy pyproj shapely requests
 ![image](https://github.com/user-attachments/assets/57e6bd71-7d81-4088-9ad4-1942ca367c47)
 
 ### 🔹 Cálculo Emplazamientos Voz y Datos / Voice & Data Sites
-![image](https://github.com/user-attachments/assets/a062a77c-ba4c-4d4d-a95a-f8336b2790f5)
+![image](https://github.com/user-attachments/assets/d2700c19-2874-4132-ba07-d2d660a0f762)
 
 ---
 
