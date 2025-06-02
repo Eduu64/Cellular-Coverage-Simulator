@@ -61,10 +61,6 @@ A tool designed to estimate **mobile network (LTE) coverage and capacity**, and 
 1. Enter parameters and spectral efficiency (if not calculated earlier).  
 2. Click **"Calculate"**.
 
-⚠️ **Importante / Important**  
-**ES:** Asegúrate de corregir las rutas de imágenes en el código para que se visualicen correctamente.  
-**EN:** Make sure to correct image paths in the code so that visuals load properly.
-
 ---
 
 ## 📦 Librerías / Libraries Used  
