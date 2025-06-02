@@ -219,9 +219,14 @@ def calculareNodes():
 
         print(value16)
 
-        value1 = location.latitude
-        value2 = location.longitude
+        if not a.Area:
+            value1 = 0
+            value2 = 0
+        else:
+            value1 = location.latitude
+            value2 = location.longitude
 
+       
         # Crear instancia de la clase SIM
         sim = SIM(Id, value1, value2, value3, value4, value5, value6, value7, value8, value9, value10, value12, value13, value14, value15, value16, modelo)
         sim.Calculard()
