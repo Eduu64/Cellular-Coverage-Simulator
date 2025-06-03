@@ -22,7 +22,7 @@ A tool designed to estimate **mobile network (LTE) coverage and capacity**, and 
 2. Fill in parameters and select model and coordinates. 
 3. Click **"Calculate"**.
 
-![1](https://github.com/user-attachments/assets/6bf21d92-baa6-4b5b-a58f-2350de1f7597)
+![5](https://github.com/user-attachments/assets/7ab65f99-3f16-4d74-acff-72c5314557d8)
 
 ---
 
