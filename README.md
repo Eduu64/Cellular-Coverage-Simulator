@@ -20,8 +20,9 @@ A tool designed to estimate **mobile network (LTE) coverage and capacity**, and 
 **EN:**  
 1. Add cities from the search bar and click **"Add"**.
 2. Fill in parameters and select model and coordinates. 
-3. Click **"Calculate"**.  
+3. Click **"Calculate"**.
 
+[![Watch the video](https://i.sstatic.net/Vp2cE.png)](https://youtu.be/4g0L0HKXK6c)
 ---
 
 ### 📡 Simulación de Radiación / Radiation Simulation  
