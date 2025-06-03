@@ -22,7 +22,8 @@ A tool designed to estimate **mobile network (LTE) coverage and capacity**, and 
 2. Fill in parameters and select model and coordinates. 
 3. Click **"Calculate"**.
 
-https://youtu.be/4g0L0HKXK6c
+![1](https://github.com/user-attachments/assets/6bf21d92-baa6-4b5b-a58f-2350de1f7597)
+
 ---
 
 ### 📡 Simulación de Radiación / Radiation Simulation  
@@ -38,6 +39,8 @@ https://youtu.be/4g0L0HKXK6c
 
 💡 You can automate the station placement by right-clicking → **"Add BTS"**.
 
+![2](https://github.com/user-attachments/assets/aa538959-73c6-48a4-994e-89f493ae7b11)
+
 ---
 
 ### ⚙️ Eficiencia Espectral / Spectral Efficiency  
@@ -51,6 +54,8 @@ https://youtu.be/4g0L0HKXK6c
 2. Click **"Add"**.  
 3. Values are automatically sent to the simulator.
 
+![3](https://github.com/user-attachments/assets/277ff0e5-74f1-4efd-8a4f-ea37f8e9d66f)
+
 ---
 
 ### 📶 Simulación de Capacidad / Capacity Simulation  
@@ -61,6 +66,8 @@ https://youtu.be/4g0L0HKXK6c
 **EN:**  
 1. Enter parameters and spectral efficiency (if not calculated earlier).  
 2. Click **"Calculate"**.
+
+![4](https://github.com/user-attachments/assets/66ea2880-8598-4fbe-a693-12c9749fb7bc)
 
 ---
 
