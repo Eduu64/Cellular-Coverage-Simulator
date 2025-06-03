@@ -242,6 +242,14 @@ def calculareNodes():
 
         GUI.label_enodes_set.config(text=math.ceil(a.eNodes))
         GUI.label_area_efectiva_set.config(text=str(round(area_efectiva_km2,2)))
+        GUI.entry_areaefectiva_manual.delete(0, END)
+        GUI.entry_areaefectiva_manual.insert(0, area_efectiva_km2)
         
     except ValueError as e:
         print(f'Error al calcular Area: {e}')
+
+def calculareNodesManual():
+    value1 = float(GUI.entry_km2_manual.get())
+    value2 = float(GUI.entry_areaefectiva_manual.get())
+    eNodes = value1/ value2
+    GUI.label_enodes_set_manual.config(text=math.ceil(eNodes))

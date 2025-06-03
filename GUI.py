@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import tkintermapview
 import customtkinter
-from calculations import calcular,calcular_auto, borrar_BTS, calculareNodes
+from calculations import calcular,calcular_auto, borrar_BTS, calculareNodes, calculareNodesManual
 from API import api
 from Capacidad import ef, cap
 import os
@@ -804,6 +804,50 @@ label_enodes = ttk.Label(frame_enodes, text="Estimación eNodes necesarios:", fo
 label_enodes.pack(side='left')
 label_enodes_set = ttk.Label(frame_enodes, text="0", font=("Arial", 12), background="#FFFFFF")
 label_enodes_set.pack(side='left', padx=(10,0))
+
+frame_area_manual1 = Frame(frame2, bg="#FFFFFF")
+frame_area_manual1.pack(anchor='w', pady=15)
+label_km2_manual1 = ttk.Label(frame_area_manual1, text="Cálculo Manual", width=15, font=("Arial", 12), background="#FFFFFF")
+label_km2_manual1.pack(padx=100)
+
+frame_area_manual = Frame(frame2, bg="#FFFFFF")
+frame_area_manual.pack(anchor='w', pady=10)
+label_km2_manual = ttk.Label(frame_area_manual, text="Area Km2:", width=15, font=("Arial", 12), background="#FFFFFF")
+label_km2_manual.pack(side='left')
+entry_km2_manual = customtkinter.CTkEntry(frame_area_manual, placeholder_text="Margen")
+entry_km2_manual.pack(side='left', fill='x', expand=True)
+label_km22_manual = ttk.Label(frame_area_manual, text="Km2", font=("Arial", 10), background="#FFFFFF")
+label_km22_manual.pack(side='left', padx=10)
+
+frame_areaefectiva_manual = Frame(frame2, bg="#FFFFFF")
+frame_areaefectiva_manual.pack(anchor='w', pady=5)
+label_areaefectiva_manual = ttk.Label(frame_areaefectiva_manual, text="Area Efectiva:", width=15, font=("Arial", 12), background="#FFFFFF")
+label_areaefectiva_manual.pack(side='left')
+entry_areaefectiva_manual = customtkinter.CTkEntry(frame_areaefectiva_manual, placeholder_text="Margen")
+entry_areaefectiva_manual.pack(side='left', fill='x', expand=True)
+label_areaefectiva_manual = ttk.Label(frame_areaefectiva_manual, text="Km2", font=("Arial", 10), background="#FFFFFF")
+label_areaefectiva_manual.pack(side='left', padx=10)
+# Botón Calcular eNodes
+frame_botonmanual = Frame(frame2, bg="#FFFFFF")
+frame_botonmanual.pack(anchor='w', pady=15)
+button_manual = customtkinter.CTkButton(
+    master=frame_botonmanual,
+    fg_color="#ec3642",  # color del botón
+    hover_color="RED",  # color cuando el cursor está encima
+    font=("Montserrat", 14),
+    corner_radius=12,
+    width=100,
+    text="Calcular",
+    command=calculareNodesManual
+)
+button_manual.pack(padx=100)
+
+frame_enodes_manual = Frame(frame2, bg="#FFFFFF")
+frame_enodes_manual.pack(anchor='w', pady=5)
+label_enodes_manual = ttk.Label(frame_enodes_manual, text="Estimación eNodes necesarios:", font=("Arial", 12), background="#FFFFFF")
+label_enodes_manual.pack(side='left')
+label_enodes_set_manual = ttk.Label(frame_enodes_manual, text="0", font=("Arial", 12), background="#FFFFFF")
+label_enodes_set_manual.pack(side='left', padx=(10,0))
 
 frame_AUX2 = Frame(frame2, bg="#FFFFFF")
 frame_AUX2.pack(anchor='w', pady=20)
