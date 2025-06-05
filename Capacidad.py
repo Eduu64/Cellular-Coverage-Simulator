@@ -5,6 +5,10 @@ from tkinter import messagebox
 
 class Eficiencia:
     # Datos de CQI (tabla derecha de la imagen)
+    N_emplazamientos_voz = 0
+    N_emplazamientos_datos_mes = 0
+    N_emplazamientos_datos_instantaneo = 0
+
     cqi_data = {
         1: ("QPSK", 0.078, 2),
         2: ("QPSK", 0.120, 2),
@@ -113,7 +117,7 @@ class Capacidad:
         N_canales_voz_neto = int(N_canales_voz * 0.85)  # restamos 15% para señalización
         #print(f"N_canales_voz_neto: {N_canales_voz_neto}")
         trafico_total_voz = self.erlangs(N_canales_voz_neto, Pb / 100)
-        #print(f"trafico_total_voz: {trafico_total_voz}")
+        print(f"trafico_total_voz: {trafico_total_voz}")
         if trafico_total_voz is None:
             print("Error: No se pudo calcular el tráfico total de voz. Verifique los parámetros de entrada.")
             return None
@@ -165,12 +169,21 @@ class Capacidad:
         val_OF = int(GUI.entry_OF.get())
         val_Cu = float(GUI.entry_Cu.get())
 
-        N_emplazamientos_voz = self.calcular_capacidad_voz(val_Bv_MHz, val_Ef, val_RbCODEC_bps, val_trafico_usuario_mErlang, val_poblacion_cliente, val_Pb)
-        N_emplazamientos_datos_mes, N_emplazamientos_datos_instantaneo = self.calcular_capacidad_datos(val_Btotal_MHz, val_Bv_MHz, val_Ef, val_load_sector, val_Trafico_usuario_GB_mes, val_porcentaje_BH, val_poblacion_cliente, val_OF, val_Cu)
+        self.N_emplazamientos_voz = self.calcular_capacidad_voz(val_Bv_MHz, val_Ef, val_RbCODEC_bps, val_trafico_usuario_mErlang, val_poblacion_cliente, val_Pb)
+        self.N_emplazamientos_datos_mes, self.N_emplazamientos_datos_instantaneo = self.calcular_capacidad_datos(val_Btotal_MHz, val_Bv_MHz, val_Ef, val_load_sector, val_Trafico_usuario_GB_mes, val_porcentaje_BH, val_poblacion_cliente, val_OF, val_Cu)
 
-        GUI.label_resultados1_set.configure(text= math.ceil(N_emplazamientos_voz))
-        GUI.label_resultados2_set.configure(text=math.ceil(N_emplazamientos_datos_mes))
-        GUI.label_resultados3_set.configure(text=math.ceil(N_emplazamientos_datos_instantaneo))
+        GUI.label_resultados1_set.configure(text= math.ceil(self.N_emplazamientos_voz))
+        GUI.label_resultados2_set.configure(text=math.ceil(self.N_emplazamientos_datos_mes))
+        GUI.label_resultados3_set.configure(text=math.ceil(self.N_emplazamientos_datos_instantaneo))
+    
+    def calculodistanciacobertura(self):
+
+        EstacionesBase = math.ceil(max(self.N_emplazamientos_voz,self.N_emplazamientos_datos_mes,self.N_emplazamientos_datos_instantaneo))
+        print(EstacionesBase)
+        AreaT = float(GUI.entry_areacoberturacapacidad_manual.get())
+        AreaEfectiva = AreaT/EstacionesBase
+        d = math.sqrt(AreaEfectiva/1.95)
+        GUI.label_resultados4_set.configure(text=d)
 
 
 ef = Eficiencia()

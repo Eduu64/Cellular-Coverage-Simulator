@@ -2,9 +2,9 @@ from tkinter import *
 from tkinter import ttk
 import tkintermapview
 import customtkinter
-from calculations import calcular,calcular_auto, borrar_BTS, calculareNodes, calculareNodesManual
+from calculations import calcular,calcular_auto, borrar_BTS, calculareNodes, calculareNodesManual 
 from API import api
-from Capacidad import ef, cap
+from Capacidad import ef, cap 
 import os
 
 customtkinter.deactivate_automatic_dpi_awareness()
@@ -781,6 +781,8 @@ label_area.pack(side='left')
 label_area_set = Label(frame_area, text="0", font=("Arial", 12), background="#FFFFFF")
 label_area_set.pack(side='left', padx=(10,0))
 
+label_area1 = ttk.Label(frame_area, text="Km2", font=("Arial", 10), background="#FFFFFF")
+label_area1.pack(side='left', padx=157)
 # Area Total Territorio
 frame_area_total = Frame(frame2, bg="#FFFFFF")
 frame_area_total.pack(anchor='w', pady=5)
@@ -788,6 +790,8 @@ label_total_area = ttk.Label(frame_area_total, text="Area Total Territorio:", fo
 label_total_area.pack(side='left')
 label_total_area_set = Label(frame_area_total, text="0", font=("Arial", 12), background="#FFFFFF")
 label_total_area_set.pack(side='left', padx=(10,0))
+label_total_area1 = ttk.Label(frame_area_total, text="Km2", font=("Arial", 10), background="#FFFFFF")
+label_total_area1.pack(side='left', padx=120)
 
 # Area efectiva
 frame_area_efectiva = Frame(frame2, bg="#FFFFFF")
@@ -796,6 +800,8 @@ label_area_efectiva = ttk.Label(frame_area_efectiva, text="Area efectiva:", font
 label_area_efectiva.pack(side='left')
 label_area_efectiva_set = ttk.Label(frame_area_efectiva, text="0", font=("Arial", 12), background="#FFFFFF")
 label_area_efectiva_set.pack(side='left', padx=(10,0))
+label_area_efectiva1 = ttk.Label(frame_area_efectiva, text="Km2", font=("Arial", 10), background="#FFFFFF")
+label_area_efectiva1.pack(side='left', padx=172)
 
 # Estimación eNodes necesarios
 frame_enodes = Frame(frame2, bg="#FFFFFF")
@@ -825,8 +831,8 @@ label_areaefectiva_manual = ttk.Label(frame_areaefectiva_manual, text="Area Efec
 label_areaefectiva_manual.pack(side='left')
 entry_areaefectiva_manual = customtkinter.CTkEntry(frame_areaefectiva_manual, placeholder_text="Margen")
 entry_areaefectiva_manual.pack(side='left', fill='x', expand=True)
-label_areaefectiva_manual = ttk.Label(frame_areaefectiva_manual, text="Km2", font=("Arial", 10), background="#FFFFFF")
-label_areaefectiva_manual.pack(side='left', padx=10)
+label_areaefectiva_manual1 = ttk.Label(frame_areaefectiva_manual, text="Km2", font=("Arial", 10), background="#FFFFFF")
+label_areaefectiva_manual1.pack(side='left', padx=10)
 # Botón Calcular eNodes
 frame_botonmanual = Frame(frame2, bg="#FFFFFF")
 frame_botonmanual.pack(anchor='w', pady=15)
@@ -977,10 +983,13 @@ command=ef.reset_all).grid(row=0, column=2, padx=20)
 
 
 # ---------- Calculo Capacidad ----------
-
+frame_capacidad = Frame(frame3, bg="#FFFFFF")
+frame_capacidad.pack(anchor='w', pady=10)
+label_capacidad = ttk.Label(frame_capacidad, text="Calculo de Capacidad", width=50, font=("Arial", 12), background="#FFFFFF")
+label_capacidad.pack(padx=100)
 # Btotal_MHz
 frame_btotal = Frame(frame3, bg="#FFFFFF")
-frame_btotal.pack(anchor='w', pady=10)
+frame_btotal.pack(anchor='w', pady=20)
 label_btotal = ttk.Label(frame_btotal, text="Bandwith Total: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
 label_btotal.pack(side='left')
 entry_Btotal_MHz = customtkinter.CTkEntry(frame_btotal)
@@ -1106,7 +1115,7 @@ submit_btn = customtkinter.CTkButton(
     text="Calcular",
     command=cap.calcular_capacidad
 )
-submit_btn.pack(pady=20, anchor='w')
+submit_btn.pack(pady=20,padx=150, anchor='w')
 
 # Resultados
 frame_resultado1 = Frame(frame3, bg="#FFFFFF")
@@ -1140,3 +1149,43 @@ label_resultados3 = ttk.Label(frame_resultado3, text="Capacidad Instantanea: ", 
 label_resultados3.pack(side='left')
 label_resultados3_set = ttk.Label(frame_resultado3, text="", font=("Arial", 12), background="#FFFFFF")
 label_resultados3_set.pack(side='left')
+
+frame_coberturacapacidad_manual = Frame(frame3, bg="#FFFFFF")
+frame_coberturacapacidad_manual.pack(anchor='w', pady=20)
+label_areacoberturacapacidad_manual = ttk.Label(frame_coberturacapacidad_manual, text="Calculo de distancia de cobertura", width=30, font=("Arial", 12), background="#FFFFFF")
+label_areacoberturacapacidad_manual.pack(padx=100)
+
+frame_areacoberturacapacidad_manual = Frame(frame3, bg="#FFFFFF")
+frame_areacoberturacapacidad_manual.pack(anchor='w', pady=10)
+label_areacoberturacapacidad_manual = ttk.Label(frame_areacoberturacapacidad_manual, text="Area Total:", width=15, font=("Arial", 12), background="#FFFFFF")
+label_areacoberturacapacidad_manual.pack(side='left')
+entry_areacoberturacapacidad_manual = customtkinter.CTkEntry(frame_areacoberturacapacidad_manual, placeholder_text="Area")
+entry_areacoberturacapacidad_manual.pack(side='left', fill='x', expand=True)
+frame_areacoberturacapacidad_manual = ttk.Label(frame_areacoberturacapacidad_manual, text="Km2", font=("Arial", 10), background="#FFFFFF")
+frame_areacoberturacapacidad_manual.pack(side='left', padx=10)
+
+frame_botonmanual1 = Frame(frame3, bg="#FFFFFF")
+frame_botonmanual1.pack(anchor='w', pady=20)
+button_manual1 = customtkinter.CTkButton(
+    master=frame_botonmanual1,
+    fg_color="RED",  # color del botón
+    hover_color="#cc0000",  # color cuando el cursor está encima
+    font=("Montserrat", 14),
+    corner_radius=12,
+    width=100,
+    text="Calcular",
+    command = cap.calculodistanciacobertura
+)
+button_manual1.pack(padx=150)
+
+frame_resultado4 = Frame(frame3, bg="#FFFFFF")
+frame_resultado4.pack(anchor='w', pady=10)
+label_resultados4 = ttk.Label(frame_resultado4, text="Distancia cobertura: ", width=30, anchor='w', font=("Arial", 12), background="#FFFFFF")
+label_resultados4.pack(side='left')
+label_resultados4_set = ttk.Label(frame_resultado4, text="", font=("Arial", 12), background="#FFFFFF")
+label_resultados4_set.pack(side='left')
+label_resultados44 = ttk.Label(frame_resultado4, text="Km", width=10, anchor='w', font=("Arial", 10), background="#FFFFFF", padding=[5,0])
+label_resultados44.pack(side='left')
+
+frame_aux3 = Frame(frame3, bg="#FFFFFF")
+frame_aux3.pack(anchor='w', pady=10)
