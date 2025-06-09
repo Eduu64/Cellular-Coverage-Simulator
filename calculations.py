@@ -253,15 +253,15 @@ def calculareNodes():
         print(f"Distancia máxima estimada: {d_max:} km")
         area_efectiva_km2 = (1.95) * (d_max ** 2)
         print(f"Area efectiva: {area_efectiva_km2:} km2")
-        a.AreaEfectivaCobertura = area_efectiva_km2
+        a.AreaEfectivaCobertura = round(area_efectiva_km2,3)
 
-        eNodes = a.AreaTotal/ area_efectiva_km2
+        eNodes = a.AreaTotal/ round(area_efectiva_km2,3)
         a.eNodes = eNodes
 
         GUI.label_enodes_set.config(text=math.ceil(a.eNodes))
         GUI.label_area_efectiva_set.config(text=str(round(area_efectiva_km2,2)))
         GUI.entry_areaefectiva_manual.delete(0, END)
-        GUI.entry_areaefectiva_manual.insert(0, area_efectiva_km2)
+        GUI.entry_areaefectiva_manual.insert(0, round(area_efectiva_km2,3))
         
     except ValueError as e:
         print(f'Error al calcular Area: {e}')
