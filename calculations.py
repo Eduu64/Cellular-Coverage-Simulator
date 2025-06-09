@@ -29,6 +29,23 @@ def calcular():
         value15 = float(GUI.radio_var.get())
         modelo = GUI.desplegable2.get()
 
+        print("Valores ingresados:")
+        print(f"Latitud: {value1}")
+        print(f"Longitud: {value2}")
+        print(f"Potencia TX: {value3}")
+        print(f"Ganancia TX: {value4}")
+        print(f"Pérdidas TX (Ltx): {value5}")
+        print(f"Pérdidas RX (Lrx): {value6}")
+        print(f"Ganancia RX: {value7}")
+        print(f"Frecuencia: {value8}")
+        print(f"Altura base: {value9}")
+        print(f"Altura móvil: {value10}")
+        print(f"Cobertura: {value12}")
+        print(f"Perdidas añadidas: {value13}")
+        print(f"Margen: {value14}")
+        print(f"Tipo de entorno (radio_var): {value15}")
+        print(f"Modelo seleccionado: {modelo}")
+
         tipodeciudadauto = GUI.switch_var1.get()
         desplegable1 = GUI.desplegable1.get()
 
@@ -233,8 +250,9 @@ def calculareNodes():
         print(sim.Pd)
         max_value_tupla = max(sim.Pd["Sector 1"], key=lambda x: x[1]) #distancia mas larga
         d_max = max_value_tupla[1]
-
+        print(f"Distancia máxima estimada: {d_max:} km")
         area_efectiva_km2 = (1.95) * (d_max ** 2)
+        print(f"Area efectiva: {area_efectiva_km2:} km2")
         a.AreaEfectivaCobertura = area_efectiva_km2
 
         eNodes = a.AreaTotal/ area_efectiva_km2

@@ -220,8 +220,8 @@ class SIM:
         :return: Distancia calculada.
         """
         if self.type_location == "city":
-            return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.6 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a - 3) / (44.9 - 6.55 * math.log10(self.Hb)))
+            return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.9 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a - 3) / (44.9 - 6.55 * math.log10(self.Hb)))
         else:
-            return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.6 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a - 0) / (44.9 - 6.55 * math.log10(self.Hb)))
+            return 10**((self.PTX - self.Smax + gananciatx + self.GRX - self.LTX - self.LRX - self.PerdidasAñadidas - self.Margen - 46.3 - 33.9 * math.log10(self.frec) + 13.82 * math.log10(self.Hb) + a - 0) / (44.9 - 6.55 * math.log10(self.Hb)))
         
 
