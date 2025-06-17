@@ -15,12 +15,16 @@ A tool designed to estimate **mobile network (LTE) coverage and capacity**, and 
 **ES:**  
 1. Añadir ciudades desde el buscador y hacer clic en **"Añadir"**.  
 2. Rellenar los parámetros y elegir modelo de estudio.   
-3. Hacer clic en **"Calcular"**.  
+3. Hacer clic en **"Calcular"**.
+   
+💡 El tipo de ubicación puede ser estimado automáticamente por la aplicación si no se selecciona el switch pegado al combobox de ubicación.
 
 **EN:**  
 1. Add cities from the search bar and click **"Add"**.
 2. Fill in parameters and select model and coordinates. 
 3. Click **"Calculate"**.
+
+💡 The location type can be automatically estimated by the application if the switch next to the location combobox is not selected.
 
 ![5](https://github.com/user-attachments/assets/7ab65f99-3f16-4d74-acff-72c5314557d8)
 
